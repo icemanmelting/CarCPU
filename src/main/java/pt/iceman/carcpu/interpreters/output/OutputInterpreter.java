@@ -16,8 +16,8 @@ public class OutputInterpreter implements Runnable {
     public Map<Class<? extends OutputModule>, OutputModule> getOutputModules() {
         if (outputModules == null) {
             outputModules = new HashMap<>();
-            Reflections reflections = new Reflections(OutputModule.getPackageName());
 
+            Reflections reflections = new Reflections(OutputModule.getPackageName());
             Set<Class<? extends OutputModule>> allClasses =
                     reflections.getSubTypesOf(OutputModule.class);
 

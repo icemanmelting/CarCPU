@@ -18,7 +18,7 @@ public class CarCPU {
     }
 
     public void start() {
-        InputInterpreter inputInterpreter = new InputInterpreter(dashboard);
+        InputInterpreter inputInterpreter = new InputInterpreter(dashboard, settings);
         Thread inputReader = new Thread(inputInterpreter);
         inputReader.start();
 
