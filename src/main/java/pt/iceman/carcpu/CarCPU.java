@@ -1,34 +1,29 @@
 package pt.iceman.carcpu;
 
-import org.reflections.Reflections;
-import pt.iceman.carcpu.modules.Module;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import pt.iceman.carcpu.dashboard.Dashboard;
+import pt.iceman.carcpu.interpreters.input.InputInterpreter;
+import pt.iceman.carcpu.interpreters.output.OutputInterpreter;
+import pt.iceman.carcpu.settings.CarSettings;
 
 /**
  * Created by iceman on 17/07/2016.
  */
 public class CarCPU {
-    private static Map<Class<? extends Module >, Module> modules;
+    private Dashboard dashboard;
+    private CarSettings settings;
 
-    public Map<Class<? extends Module >, Module> getModules() {
-        if(modules == null) {
-            modules = new HashMap<>();
-            Reflections reflections = new Reflections("pt.iceman.carcpu.modules");
+    public CarCPU(Dashboard dashboard, CarSettings settings) {
+        this.dashboard = dashboard;
+        this.settings = settings;
+    }
 
-            Set<Class<? extends Module>> allClasses =
-                    reflections.getSubTypesOf(Module.class);
+    public void start() {
+        InputInterpreter inputInterpreter = new InputInterpreter(dashboard);
+        Thread inputReader = new Thread(inputInterpreter);
+        inputReader.start();
 
-            allClasses.forEach(c -> {
-                try {
-                    modules.put(c, c.newInstance());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-        }
-        return modules;
+        OutputInterpreter outputInterpreter = new OutputInterpreter();
+        Thread outputReader = new Thread(outputInterpreter);
+        outputReader.start();
     }
 }

@@ -1,9 +1,9 @@
-package pt.iceman.carcpu.modules;
+package pt.iceman.carcpu.modules.input;
 
 /**
  * Created by iceman on 17/07/2016.
  */
-public class Rpm implements Module {
+public class Rpm implements InputModule {
     @Override
     public void interpretCommand() {
 
