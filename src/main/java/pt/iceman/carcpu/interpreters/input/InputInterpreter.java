@@ -3,6 +3,8 @@ package pt.iceman.carcpu.interpreters.input;
 import org.reflections.Reflections;
 import pt.iceman.carcpu.dashboard.Dashboard;
 import pt.iceman.carcpu.modules.input.InputModule;
+import pt.iceman.carcpu.modules.input.Lights;
+import pt.iceman.carcpu.modules.input.Temperature;
 import pt.iceman.carcpu.settings.CarSettings;
 
 import java.util.HashMap;

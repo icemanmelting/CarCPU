@@ -8,7 +8,7 @@ import pt.iceman.carcpu.settings.CarSettings;
 /**
  * Created by iceman on 17/07/2016.
  */
-public class CarCPU {
+public class CarCPU  {
     private Dashboard dashboard;
     private CarSettings settings;
 

@@ -1,6 +1,7 @@
 package pt.iceman.carcpu.interpreters.output;
 
 import org.reflections.Reflections;
+import pt.iceman.carcpu.modules.output.BluetoothProximityDoorOpener;
 import pt.iceman.carcpu.modules.output.OutputModule;
 
 import java.util.HashMap;
