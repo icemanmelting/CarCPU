@@ -1,14 +1,25 @@
 package pt.iceman.carcpu.modules.input;
 
+import pt.iceman.carcpu.dashboard.Dashboard;
 import pt.iceman.carcpu.interpreters.Command;
 
 /**
- * Created by iceman on 17/07/2016.
+ * Created by iceman on 18/07/2016.
  */
-public interface InputModule {
-    void interpretCommand(Command command);
+public abstract class InputModule {
+    private Dashboard dashboard;
 
-    static String getPackageName() {
-        return InputModule.class.getPackage().getName();
+    public InputModule(Dashboard dashboard) {
+        this.dashboard = dashboard;
     }
+
+    public Dashboard getDashboard() {
+        return dashboard;
+    }
+
+    public void setDashboard(Dashboard dashboard) {
+        this.dashboard = dashboard;
+    }
+
+    public void interpretCommand(Command command){}
 }

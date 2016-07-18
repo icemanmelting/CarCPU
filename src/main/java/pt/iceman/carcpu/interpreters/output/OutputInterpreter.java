@@ -1,7 +1,6 @@
 package pt.iceman.carcpu.interpreters.output;
 
 import org.reflections.Reflections;
-import pt.iceman.carcpu.modules.output.BluetoothProximityDoorOpener;
 import pt.iceman.carcpu.modules.output.OutputModule;
 
 import java.util.HashMap;
@@ -11,7 +10,7 @@ import java.util.Set;
 /**
  * Created by iceman on 18/07/16.
  */
-public class OutputInterpreter implements Runnable {
+public class OutputInterpreter extends Thread {
     private static Map<Class<? extends OutputModule>, OutputModule> outputModules;
 
     public Map<Class<? extends OutputModule>, OutputModule> getOutputModules() {

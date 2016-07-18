@@ -1,7 +1,6 @@
 package pt.iceman.carcpu.screen;
 
 import javafx.scene.Node;
-import pt.iceman.carcpu.dashboard.AbsolutePositioning;
 import pt.iceman.carcpu.utils.CustomEntry;
 
 import java.util.ArrayList;
