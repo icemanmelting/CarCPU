@@ -14,6 +14,11 @@
         <artifactId>reflections-maven</artifactId>
         <version>0.9.8</version>
     </dependency>
+    <dependency>
+        <groupId>eu.hansolo.enzo</groupId>
+        <artifactId>Enzo</artifactId>
+        <version>0.3.6</version>
+    </dependency>
 </dependencies>
     <build>
         <plugins>
