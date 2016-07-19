@@ -38,7 +38,7 @@ public class InputInterpreter extends Thread {
             allClasses.forEach(c -> {
                 try {
                     Constructor constructor = c.getConstructor(Dashboard.class);
-                    InputModule inputModule = (InputModule) constructor.newInstance(dashboard);
+                    InputModule inputModule = (InputModule) constructor.newInstance(this, dashboard);
                     List<Byte> commands = inputModule.getCommands();
                     commands.forEach(b -> {
                         commandModuleAssociator.put(b, c);

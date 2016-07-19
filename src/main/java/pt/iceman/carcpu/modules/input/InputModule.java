@@ -2,6 +2,7 @@ package pt.iceman.carcpu.modules.input;
 
 import pt.iceman.carcpu.dashboard.Dashboard;
 import pt.iceman.carcpu.interpreters.Command;
+import pt.iceman.carcpu.interpreters.input.InputInterpreter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +18,12 @@ public abstract class InputModule {
     protected static final double VOLTAGE_LEVEL = 12;
     protected static final int PIN_RESOLUTION = 1023;
     protected static final double STEP = (double) 15 / (double) PIN_RESOLUTION;
-    private Dashboard dashboard;
+    protected InputInterpreter inputInterpreter;
     protected List<Byte> commands;
+    private Dashboard dashboard;
 
-    public InputModule(Dashboard dashboard) {
+    public InputModule(InputInterpreter inputInterpreter, Dashboard dashboard) {
+        this.inputInterpreter = inputInterpreter;
         this.dashboard = dashboard;
         commands = new ArrayList<>();
     }
@@ -34,6 +37,10 @@ public abstract class InputModule {
     }
 
     public void interpretCommand(Command command){}
+
+    public void resetValues() {}
+
+    public void restart () {}
 
     public void setCommands() {}
 

@@ -2,6 +2,7 @@ package pt.iceman.carcpu.modules.input;
 
 import pt.iceman.carcpu.dashboard.Dashboard;
 import pt.iceman.carcpu.interpreters.Command;
+import pt.iceman.carcpu.interpreters.input.InputInterpreter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +15,8 @@ public class Temperature extends InputModule {
     public static final int TEMPERATURE_BUFFER_SIZE = 32;
     private List<Double> tempValues;
 
-    public Temperature(Dashboard dashboard) {
-        super(dashboard);
+    public Temperature(InputInterpreter inputInterpreter, Dashboard dashboard) {
+        super(inputInterpreter, dashboard);
         tempValues = new ArrayList<>(32);
     }
 
@@ -50,6 +51,16 @@ public class Temperature extends InputModule {
     @Override
     public void setCommands() {
         commands.add(TEMPERATURE_VALUE);
+    }
+
+    @Override
+    public void resetValues() {
+
+    }
+
+    @Override
+    public void restart() {
+
     }
 
     public void setTemperatureLevel(double analogLevel)

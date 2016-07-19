@@ -2,6 +2,7 @@ package pt.iceman.carcpu.modules.input;
 
 import pt.iceman.carcpu.dashboard.Dashboard;
 import pt.iceman.carcpu.interpreters.Command;
+import pt.iceman.carcpu.interpreters.input.InputInterpreter;
 
 /**
  * Created by iceman on 17/07/2016.
@@ -24,8 +25,8 @@ public class Lights extends InputModule {
     private static final byte HIGH_BEAM_ON = (byte) 0b1001_1111;
     private static final byte HIGH_BEAM_OFF = (byte) 0b1001_0000;
 
-    public Lights(Dashboard dashboard) {
-        super(dashboard);
+    public Lights(InputInterpreter inputInterpreter, Dashboard dashboard) {
+        super(inputInterpreter, dashboard);
     }
 
     @Override

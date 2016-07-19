@@ -2,6 +2,7 @@ package pt.iceman.carcpu.modules.input;
 
 import pt.iceman.carcpu.dashboard.Dashboard;
 import pt.iceman.carcpu.interpreters.Command;
+import pt.iceman.carcpu.interpreters.input.InputInterpreter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +23,8 @@ public class Fuel extends InputModule {
     private boolean setInitialFuelLevel = true;
     private List<Double> fuelValues;
 
-    public Fuel(Dashboard dashboard) {
-        super(dashboard);
+    public Fuel(InputInterpreter inputInterpreter, Dashboard dashboard) {
+        super(inputInterpreter,dashboard);
         fuelValues = new ArrayList<>(DIESEL_BUFFER_SIZE);
     }
 
@@ -51,6 +52,16 @@ public class Fuel extends InputModule {
     @Override
     public void setCommands() {
         commands.add(DIESEL_VALUE);
+    }
+
+    @Override
+    public void resetValues() {
+
+    }
+
+    @Override
+    public void restart() {
+
     }
 
     public void setFuelLevel(double analogLevel) {

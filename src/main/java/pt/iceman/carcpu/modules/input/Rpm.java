@@ -2,6 +2,7 @@ package pt.iceman.carcpu.modules.input;
 
 import pt.iceman.carcpu.dashboard.Dashboard;
 import pt.iceman.carcpu.interpreters.Command;
+import pt.iceman.carcpu.interpreters.input.InputInterpreter;
 
 /**
  * Created by iceman on 17/07/2016.
@@ -9,8 +10,8 @@ import pt.iceman.carcpu.interpreters.Command;
 public class Rpm extends InputModule {
     private static final byte RPM_PULSE = (byte) 0b1011_0100;
 
-    public Rpm(Dashboard dashboard) {
-        super(dashboard);
+    public Rpm(InputInterpreter inputInterpreter, Dashboard dashboard) {
+        super(inputInterpreter, dashboard);
     }
 
     @Override
@@ -47,5 +48,15 @@ public class Rpm extends InputModule {
     @Override
     public void setCommands() {
         commands.add(RPM_PULSE);
+    }
+
+    @Override
+    public void resetValues() {
+
+    }
+
+    @Override
+    public void restart() {
+
     }
 }
