@@ -9,7 +9,6 @@ import pt.iceman.carcpu.mcu.McuListenter;
 public class CarCPU {
     public void start(Dashboard dashboard) {
         McuListenter mcuListenter = new McuListenter(dashboard);
-        mcuListenter.setDaemon(true);
         mcuListenter.start();
     }
 }

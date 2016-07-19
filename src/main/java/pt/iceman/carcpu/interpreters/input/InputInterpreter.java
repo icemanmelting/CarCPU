@@ -7,6 +7,7 @@ import pt.iceman.carcpu.modules.input.InputModule;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
@@ -15,7 +16,8 @@ import java.util.concurrent.BlockingQueue;
  * Created by iceman on 18/07/16.
  */
 public class InputInterpreter extends Thread {
-    private static Map<Class<? extends InputModule>, InputModule> inputModules;
+    private Map<Class<? extends InputModule>, InputModule> inputModules;
+    private Map<Byte, Class<? extends InputModule>> commandModuleAssociator;
     private Dashboard dashboard;
     private BlockingQueue<Command> inputQueue;
 
@@ -28,7 +30,7 @@ public class InputInterpreter extends Thread {
     public Map<Class<? extends InputModule>, InputModule> getInputModules() {
         if (inputModules == null) {
             inputModules = new HashMap<>();
-
+            commandModuleAssociator = new HashMap<>();
             Reflections reflections = new Reflections(InputModule.class.getPackage().getName());
             Set<Class<? extends InputModule>> allClasses =
                     reflections.getSubTypesOf(InputModule.class);
@@ -36,13 +38,23 @@ public class InputInterpreter extends Thread {
             allClasses.forEach(c -> {
                 try {
                     Constructor constructor = c.getConstructor(Dashboard.class);
-                    inputModules.put(c, (InputModule) constructor.newInstance(dashboard));
+                    InputModule inputModule = (InputModule) constructor.newInstance(dashboard);
+                    List<Byte> commands = inputModule.getCommands();
+                    commands.forEach(b -> {
+                        commandModuleAssociator.put(b, c);
+                    });
+
+                    inputModules.put(c, inputModule);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             });
         }
         return inputModules;
+    }
+
+    public Map<Byte, Class<? extends InputModule>> getCommandModuleAssociator() {
+        return commandModuleAssociator;
     }
 
     @Override

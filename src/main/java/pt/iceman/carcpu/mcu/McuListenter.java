@@ -3,6 +3,7 @@ package pt.iceman.carcpu.mcu;
 import pt.iceman.carcpu.dashboard.Dashboard;
 import pt.iceman.carcpu.interpreters.Command;
 import pt.iceman.carcpu.interpreters.input.InputInterpreter;
+import pt.iceman.carcpu.modules.input.InputModule;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -23,6 +24,7 @@ public class McuListenter extends Thread {
     public McuListenter(Dashboard dashboard) {
         inputQueue = new ArrayBlockingQueue<>(100);
         inputInterpreter = new InputInterpreter(dashboard, inputQueue);
+        inputInterpreter.start();
     }
 
     @Override
@@ -52,12 +54,17 @@ public class McuListenter extends Thread {
     }
 
     public void readMessages(byte[] values) {
-        Command cmd = new Command();
+        Class<? extends InputModule> clazz = inputInterpreter.getCommandModuleAssociator().get(values[0]);
 
-        try {
-            inputQueue.put(cmd);
-        } catch (InterruptedException e) {
-            System.out.println("Problem adding command to queue!");
+        if(clazz != null) {
+            Command cmd = new Command();
+            cmd.setValues(values);
+            cmd.setClazz(clazz);
+            try {
+                inputQueue.put(cmd);
+            } catch (InterruptedException e) {
+                System.out.println("Problem adding command to queue!");
+            }
         }
     }
 }
