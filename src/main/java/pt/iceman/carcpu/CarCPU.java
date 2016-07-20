@@ -12,9 +12,4 @@ public class CarCPU {
         McuListenter mcuListenter = new McuListenter(dashboard);
         mcuListenter.start();
     }
-
-    public static void main (String[] args) {
-        CarCPU carCPU = new CarCPU();
-        carCPU.start(null);
-    }
 }
