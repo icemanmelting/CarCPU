@@ -11,6 +11,9 @@ import java.util.List;
  * Created by iceman on 17/07/2016.
  */
 public class Temperature extends InputModule {
+    protected static final float CAR_TERMISTOR_ALPHA_VALUE = -0.00001423854206f;
+    protected static final float CAR_TERMISTOR_BETA_VALUE = 0.0007620444171f;
+    protected static final float CAR_TERMISTOR_C_VALUE = -0.000006511973919f;
     private static final byte TEMPERATURE_VALUE = (byte) 0b1100_0000;
     public static final int TEMPERATURE_BUFFER_SIZE = 32;
     private List<Double> tempValues;

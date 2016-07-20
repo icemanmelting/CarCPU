@@ -11,9 +11,6 @@ import java.util.List;
  * Created by iceman on 18/07/2016.
  */
 public abstract class InputModule {
-    protected static final float CAR_TERMISTOR_ALPHA_VALUE = -0.00001423854206f;
-    protected static final float CAR_TERMISTOR_BETA_VALUE = 0.0007620444171f;
-    protected static final float CAR_TERMISTOR_C_VALUE = -0.000006511973919f;
     protected static final int PULL_UP_RESISTOR_VALUE = 975;
     protected static final double VOLTAGE_LEVEL = 12;
     protected static final int PIN_RESOLUTION = 1023;
