@@ -1,6 +1,7 @@
 package pt.iceman.carcpu.screen;
 
 import javafx.scene.Node;
+import pt.iceman.cardata.utils.CustomEntry;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.sql.SQLException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -21,7 +22,7 @@ public class McuListenter extends Thread {
     private int controllerPort = 9887;
     private DatagramSocket serverSocket;
 
-    public McuListenter(Dashboard dashboard) {
+    public McuListenter(Dashboard dashboard) throws SQLException, ClassNotFoundException {
         inputQueue = new ArrayBlockingQueue<>(100);
         inputInterpreter = new InputInterpreter(dashboard, inputQueue);
         inputInterpreter.start();
