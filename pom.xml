@@ -11,8 +11,8 @@
 <dependencies>
     <dependency>
         <groupId>org.reflections</groupId>
-        <artifactId>reflections-maven</artifactId>
-        <version>0.9.8</version>
+        <artifactId>reflections</artifactId>
+        <version>0.9.10</version>
     </dependency>
     <dependency>
         <groupId>eu.hansolo.enzo</groupId>

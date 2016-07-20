@@ -6,6 +6,8 @@ import pt.iceman.carcpu.interpreters.input.InputInterpreter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by iceman on 17/07/2016.
@@ -17,6 +19,7 @@ public class Temperature extends InputModule {
     private static final byte TEMPERATURE_VALUE = (byte) 0b1100_0000;
     public static final int TEMPERATURE_BUFFER_SIZE = 32;
     private List<Double> tempValues;
+    private Timer tempDataTimer;
 
     public Temperature(InputInterpreter inputInterpreter, Dashboard dashboard) {
         super(inputInterpreter, dashboard);
@@ -58,12 +61,34 @@ public class Temperature extends InputModule {
 
     @Override
     public void resetValues() {
-
+        tempValues.clear();
+        getDashboard().setTemp(0);
+        tempDataTimer.cancel();
     }
 
     @Override
     public void restart() {
-
+        tempDataTimer = new Timer();
+        tempDataTimer.schedule(new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+//                try (SqliteConnector connector = new SqliteConnector("javaCarputer"))
+//                {
+//                    connector.insertTempData(new CustomEntry<Double, String>(dashboard.getTemp(), new Date().toString()));
+//                } catch (SQLException e)
+//                {
+//                    createErrorMessage("Could not insert temperature data", e.getCause().toString());
+//                } catch (ClassNotFoundException e1)
+//                {
+//
+//                } catch (Exception e1)
+//                {
+//                    e1.printStackTrace();
+//                }
+            }
+        }, 0, 300000);
     }
 
     public void setTemperatureLevel(double analogLevel)

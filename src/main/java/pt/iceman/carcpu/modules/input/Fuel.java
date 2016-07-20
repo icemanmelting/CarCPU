@@ -56,7 +56,8 @@ public class Fuel extends InputModule {
 
     @Override
     public void resetValues() {
-
+        fuelValues.clear();
+        getDashboard().setDiesel(0);
     }
 
     @Override

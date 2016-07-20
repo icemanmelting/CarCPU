@@ -4,12 +4,17 @@ import pt.iceman.carcpu.dashboard.Dashboard;
 import pt.iceman.carcpu.interpreters.Command;
 import pt.iceman.carcpu.interpreters.input.InputInterpreter;
 
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Created by iceman on 19/07/2016.
  */
 public class Ignition extends InputModule{
     private static final byte IGNITION_OFF = (byte) 0b10101010;
     private static final byte IGNITION_ON = (byte) 0b10101011;
+    private Timer timer;
 
     public Ignition(InputInterpreter inputInterpreter, Dashboard dashboard) {
         super(inputInterpreter, dashboard);
@@ -20,13 +25,37 @@ public class Ignition extends InputModule{
         byte[] commandValues = command.getValues();
         if (commands.contains(commandValues[0])) {
             if (commandValues[0] == IGNITION_OFF) {
-                inputInterpreter.getInputModules().forEach((c, o) -> {
-                    o.resetValues();
-                });
+                timer = new Timer();
+                timer.schedule(new TimerTask()
+                {
+                    @Override
+                    public void run()
+                    {
+                        try
+                        {
+                            Runtime.getRuntime().exec("/etc/init.d/shutdownScreen.sh");
+                        } catch (IOException e)
+                        {
+                            createErrorMessage("Could not read script to shutdown screen", e.getCause().toString());
+                        }
+                    }
+                }, 5000);
+                inputInterpreter.getInputModules().forEach((c, o) -> o.resetValues());
+                inputInterpreter.setIgnition(false);
             } else {
-                inputInterpreter.getInputModules().forEach((c, o) -> {
-                    o.restart();
-                });
+                if (timer != null)
+                {
+                    timer.cancel();
+                }
+                try
+                {
+                    Runtime.getRuntime().exec("/etc/init.d/turnonscreen.sh");
+                } catch (IOException e)
+                {
+                    createErrorMessage("Could not read script to turn on screen", e.getCause().toString());
+                }
+                inputInterpreter.getInputModules().forEach((c, o) -> o.restart());
+                inputInterpreter.setIgnition(true);
             }
         }
     }

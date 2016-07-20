@@ -52,7 +52,7 @@ public class Rpm extends InputModule {
 
     @Override
     public void resetValues() {
-
+        getDashboard().setRpm(0);
     }
 
     @Override

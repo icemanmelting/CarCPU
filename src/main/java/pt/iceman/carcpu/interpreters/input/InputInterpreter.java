@@ -20,6 +20,7 @@ public class InputInterpreter extends Thread {
     private Map<Byte, Class<? extends InputModule>> commandModuleAssociator;
     private Dashboard dashboard;
     private BlockingQueue<Command> inputQueue;
+    private boolean ignition;
 
     public InputInterpreter(Dashboard dashboard, BlockingQueue<Command> inputQueue) {
         this.dashboard = dashboard;
@@ -31,19 +32,17 @@ public class InputInterpreter extends Thread {
         if (inputModules == null) {
             inputModules = new HashMap<>();
             commandModuleAssociator = new HashMap<>();
-            Reflections reflections = new Reflections(InputModule.class.getPackage().getName());
-            Set<Class<? extends InputModule>> allClasses =
-                    reflections.getSubTypesOf(InputModule.class);
+            String classPath = InputModule.class.getPackage().getName();
+            Reflections reflections = new Reflections(classPath);
+            Set<Class<? extends InputModule>> allClasses = reflections.getSubTypesOf(InputModule.class);
 
             allClasses.forEach(c -> {
                 try {
-                    Constructor constructor = c.getConstructor(Dashboard.class);
+                    Constructor constructor = c.getConstructor(InputInterpreter.class, Dashboard.class);
                     InputModule inputModule = (InputModule) constructor.newInstance(this, dashboard);
+                    inputModule.setCommands();
                     List<Byte> commands = inputModule.getCommands();
-                    commands.forEach(b -> {
-                        commandModuleAssociator.put(b, c);
-                    });
-
+                    commands.forEach(b -> commandModuleAssociator.put(b, c));
                     inputModules.put(c, inputModule);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -55,6 +54,14 @@ public class InputInterpreter extends Thread {
 
     public Map<Byte, Class<? extends InputModule>> getCommandModuleAssociator() {
         return commandModuleAssociator;
+    }
+
+    public boolean isIgnition() {
+        return ignition;
+    }
+
+    public void setIgnition(boolean ignition) {
+        this.ignition = ignition;
     }
 
     @Override

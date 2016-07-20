@@ -45,10 +45,6 @@ public abstract class InputModule {
         return commands;
     }
 
-    public void setCommands(List<Byte> commands) {
-        this.commands = commands;
-    }
-
     protected void createErrorMessage(String message, String cause)
     {
 //        try (SqliteConnector connector = new SqliteConnector("javaCarputer"))
