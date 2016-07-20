@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * Created by iceman on 18/07/16.
  */
-public class OutputInterpreter implements Runnable {
+public class OutputInterpreter extends Thread {
     private static Map<Class<? extends OutputModule>, OutputModule> outputModules;
 
     public Map<Class<? extends OutputModule>, OutputModule> getOutputModules() {
