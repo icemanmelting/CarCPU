@@ -3,11 +3,11 @@ package pt.iceman.carcpu.modules.input;
 import pt.iceman.carcpu.dashboard.Dashboard;
 import pt.iceman.carcpu.interpreters.Command;
 import pt.iceman.carcpu.interpreters.input.InputInterpreter;
+import pt.iceman.cardata.CarData;
+import pt.iceman.cardata.utils.CustomEntry;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.sql.SQLException;
+import java.util.*;
 
 /**
  * Created by iceman on 17/07/2016.
@@ -49,7 +49,7 @@ public class Temperature extends InputModule {
                 setTemperatureLevel(calculateAverage(tempValues));
             } catch (Exception e)
             {
-                createErrorMessage("Problem setting temperature", e.getCause().toString());
+                createErrorMessage("Problem setting temperature");
             }
         }
     }
@@ -74,19 +74,13 @@ public class Temperature extends InputModule {
             @Override
             public void run()
             {
-//                try (SqliteConnector connector = new SqliteConnector("javaCarputer"))
-//                {
-//                    connector.insertTempData(new CustomEntry<Double, String>(dashboard.getTemp(), new Date().toString()));
-//                } catch (SQLException e)
-//                {
-//                    createErrorMessage("Could not insert temperature data", e.getCause().toString());
-//                } catch (ClassNotFoundException e1)
-//                {
-//
-//                } catch (Exception e1)
-//                {
-//                    e1.printStackTrace();
-//                }
+                try
+                {
+                    inputInterpreter.getCarData().executeDbCommand(CarData.DBCommand.TEMPW, new CustomEntry<>(getDashboard().getTemp(), new Date().toString()));
+                } catch (SQLException e)
+                {
+                    createErrorMessage("Could not insert temperature data");
+                }
             }
         }, 0, 300000);
     }

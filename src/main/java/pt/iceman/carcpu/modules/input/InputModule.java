@@ -3,8 +3,12 @@ package pt.iceman.carcpu.modules.input;
 import pt.iceman.carcpu.dashboard.Dashboard;
 import pt.iceman.carcpu.interpreters.Command;
 import pt.iceman.carcpu.interpreters.input.InputInterpreter;
+import pt.iceman.cardata.CarData;
+import pt.iceman.cardata.log.CarLog;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,49 +37,42 @@ public abstract class InputModule {
         this.dashboard = dashboard;
     }
 
-    public void interpretCommand(Command command){}
+    public void interpretCommand(Command command) {
+    }
 
-    public void resetValues() {}
+    public void resetValues() {
+    }
 
-    public void restart () {}
+    public void restart() {
+    }
 
-    public void setCommands() {}
+    public void setCommands() {
+    }
 
     public List<Byte> getCommands() {
         return commands;
     }
 
-    protected void createErrorMessage(String message, String cause)
-    {
-//        try (SqliteConnector connector = new SqliteConnector("javaCarputer"))
-//        {
-//            connector.insertError(new ErrorData()
-//            {
-//                {
-//                    setMessage(message);
-//                    setCause(cause);
-//                    setTimeframe(new Date().toString());
-//                }
-//            });
-//        } catch (ClassNotFoundException e)
-//        {
-//            System.out.println("Problem loading library from classpath!");
-//        } catch (SQLException e)
-//        {
-//            System.out.println("Problem loading db");
-//        } catch (Exception e)
-//        {
-//            System.out.println("Problem closing connector");
-//        }
+    protected void createErrorMessage(String message) {
+        try {
+            inputInterpreter.getCarData().executeDbCommand(CarData.DBCommand.LOGW, new CarLog() {
+                {
+                    setMessage(message);
+                    setLogLevel(LogLevel.ERROR);
+                    setTimeFrame(new Date());
+                }
+            });
+        } catch (SQLException e) {
+            System.out.println("Problem loading db");
+        } catch (Exception e) {
+            System.out.println("Problem closing connector");
+        }
     }
 
-    protected double calculateAverage(List<Double> marks)
-    {
+    protected double calculateAverage(List<Double> marks) {
         Double sum = 0d;
-        if (!marks.isEmpty())
-        {
-            for (Double mark : marks)
-            {
+        if (!marks.isEmpty()) {
+            for (Double mark : marks) {
                 sum += mark;
             }
             return sum / (double) marks.size();

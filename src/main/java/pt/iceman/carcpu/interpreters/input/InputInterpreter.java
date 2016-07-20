@@ -4,8 +4,11 @@ import org.reflections.Reflections;
 import pt.iceman.carcpu.dashboard.Dashboard;
 import pt.iceman.carcpu.interpreters.Command;
 import pt.iceman.carcpu.modules.input.InputModule;
+import pt.iceman.carcpu.settings.CarSettings;
+import pt.iceman.cardata.CarData;
 
 import java.lang.reflect.Constructor;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,10 +24,14 @@ public class InputInterpreter extends Thread {
     private Dashboard dashboard;
     private BlockingQueue<Command> inputQueue;
     private boolean ignition;
+    private CarData carData;
+    private CarSettings carSettings;
 
-    public InputInterpreter(Dashboard dashboard, BlockingQueue<Command> inputQueue) {
+    public InputInterpreter(Dashboard dashboard, BlockingQueue<Command> inputQueue) throws ClassNotFoundException, SQLException {
         this.dashboard = dashboard;
         this.inputQueue = inputQueue;
+        this.carData = new CarData();
+        this.carSettings = (CarSettings) carData.executeDbCommand(CarData.DBCommand.CARSETTINGSR, new Integer(1));
         getInputModules();
     }
 
@@ -62,6 +69,22 @@ public class InputInterpreter extends Thread {
 
     public void setIgnition(boolean ignition) {
         this.ignition = ignition;
+    }
+
+    public CarData getCarData() {
+        return carData;
+    }
+
+    public void setCarData(CarData carData) {
+        this.carData = carData;
+    }
+
+    public CarSettings getCarSettings() {
+        return carSettings;
+    }
+
+    public void setCarSettings(CarSettings carSettings) {
+        this.carSettings = carSettings;
     }
 
     @Override

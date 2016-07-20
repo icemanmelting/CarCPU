@@ -40,7 +40,7 @@ public class Rpm extends InputModule {
                 }
             } catch (Exception e)
             {
-                createErrorMessage("Problem setting rpm", e.getCause().toString());
+                createErrorMessage("Problem setting rpm");
             }
         }
     }

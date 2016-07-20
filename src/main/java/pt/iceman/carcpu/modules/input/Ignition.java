@@ -36,7 +36,7 @@ public class Ignition extends InputModule{
                             Runtime.getRuntime().exec("/etc/init.d/shutdownScreen.sh");
                         } catch (IOException e)
                         {
-                            createErrorMessage("Could not read script to shutdown screen", e.getCause().toString());
+                            createErrorMessage("Could not read script to shutdown screen");
                         }
                     }
                 }, 5000);
@@ -52,7 +52,7 @@ public class Ignition extends InputModule{
                     Runtime.getRuntime().exec("/etc/init.d/turnonscreen.sh");
                 } catch (IOException e)
                 {
-                    createErrorMessage("Could not read script to turn on screen", e.getCause().toString());
+                    createErrorMessage("Could not read script to turn on screen");
                 }
                 inputInterpreter.getInputModules().forEach((c, o) -> o.restart());
                 inputInterpreter.setIgnition(true);

@@ -69,7 +69,7 @@ public class Fuel extends InputModule {
         double voltage = analogLevel * STEP;
         double resistance = (voltage * PULL_UP_RESISTOR_VALUE) / (VOLTAGE_LEVEL - voltage);
         double fuelLevel = 0;
-        resistance = resistance * ((double) 164.5 / (double) 150);
+        resistance = resistance * (164.5 / (double) 150);
 
         if (resistance > 0) {
             if (resistance < FUEL_LEVEL_MAX_RESISTANCE) {
