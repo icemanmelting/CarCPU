@@ -64,8 +64,6 @@ public abstract class InputModule {
             });
         } catch (SQLException e) {
             System.out.println("Problem loading db");
-        } catch (Exception e) {
-            System.out.println("Problem closing connector");
         }
     }
 

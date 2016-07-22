@@ -86,22 +86,18 @@ public class Fuel extends InputModule {
                 fuelLevel = (FUEL_MAX_VOLUME * 0.25) - ((resistance - FUEL_1QUARTER_FULL_RESISTANCE) / (FUEL_RESERVE_RESISTANCE - FUEL_1QUARTER_FULL_RESISTANCE)) * (FUEL_MAX_VOLUME * 0.25);
             } else if (resistance >= FUEL_RESERVE_RESISTANCE && resistance < FUEL_EMPTY_RESISTANCE) {
                 fuelLevel = (FUEL_MAX_VOLUME * 0.12) - ((resistance - FUEL_EMPTY_RESISTANCE) / (FUEL_EMPTY_RESISTANCE - FUEL_RESERVE_RESISTANCE)) * (FUEL_MAX_VOLUME * 0.12);
-                // dashBoard.setFuelWarning
+              if(inputInterpreter.isIgnition()) {
+                  createErrorMessage("low fuel level detected!");
+              }
             }
 
             getDashboard().setDiesel(fuelLevel);
 
-//            if (setInitialFuelLevel && fuelLevel > 0)
-//            {
-//                carSettings.setFuelLevel(fuelLevel);
-//                setInitialFuelLevel = false;
-//            }
-//
-//            if (carSettings.getTripKilometers() % 5 == 0)
-//            {
-//                double average = ((carSettings.getFuelLevel() - fuelLevel) / carSettings.getTripKilometers()) * 100;
-//                carSettings.setAverageFuelConsuption(average);
-//            }
+            if (setInitialFuelLevel && fuelLevel > 0)
+            {
+                inputInterpreter.getCarSettings().setFuelLevel(fuelLevel);
+                setInitialFuelLevel = false;
+            }
         }
     }
 }

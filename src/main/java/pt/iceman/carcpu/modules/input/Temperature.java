@@ -91,5 +91,8 @@ public class Temperature extends InputModule {
         double resistance = (voltageLevel * PULL_UP_RESISTOR_VALUE) / (VOLTAGE_LEVEL - voltageLevel);
         double temperature = 1 / (CAR_TERMISTOR_ALPHA_VALUE + CAR_TERMISTOR_BETA_VALUE * (Math.log(resistance)) + CAR_TERMISTOR_C_VALUE * Math.log(resistance) * Math.log(resistance) * Math.log(resistance)) - 273.15;
         getDashboard().setTemp(temperature);
+        if(inputInterpreter.isIgnition() && temperature > 120) {
+            createErrorMessage("Temperature is critical, please turn off the car to cool down the engine!");
+        }
     }
 }

@@ -36,12 +36,18 @@ public class Lights extends InputModule {
             switch (commandValues[0]) {
                 case OIL_PRESSURE_ON:
                     getDashboard().setOilPressure(true);
+                    if(inputInterpreter.isIgnition() && getDashboard().getRpm() > 0) {
+                        createErrorMessage("Dangerously low oil level!");
+                    }
                     break;
                 case OIL_PRESSURE_OFF:
                     getDashboard().setOilPressure(false);
                     break;
                 case BATTERY_ON:
                     getDashboard().setBattery(true);
+                    if(inputInterpreter.isIgnition() && getDashboard().getRpm() > 0) {
+                        createErrorMessage("Please check alternator, it might not be charging the battery");
+                    }
                     break;
                 case BATTERY_OFF:
                     getDashboard().setBattery(false);
@@ -54,6 +60,9 @@ public class Lights extends InputModule {
                     break;
                 case BRAKES_OIL_ON:
                     getDashboard().setBrakesOil(true);
+                    if(inputInterpreter.isIgnition() && getDashboard().getRpm() > 0) {
+                        createErrorMessage("Please check brake oil level");
+                    }
                     break;
                 case BRAKES_OIL_OFF:
                     getDashboard().setBrakesOil(false);
@@ -66,12 +75,18 @@ public class Lights extends InputModule {
                     break;
                 case SPARK_PLUGS_ON:
                     getDashboard().setSparkPlug(true);
+                    if(inputInterpreter.isIgnition() && getDashboard().getRpm() > 0) {
+                        createErrorMessage("Something wrong with the spark plugs");
+                    }
                     break;
                 case SPARK_PLUGS_OFF:
                     getDashboard().setSparkPlug(false);
                     break;
                 case ABS_ANOMALY_ON:
                     getDashboard().setAbs(true);
+                    if(inputInterpreter.isIgnition() && getDashboard().getRpm() > 0) {
+                        createErrorMessage("Something wrong with the spark plugs");
+                    }
                     break;
                 case ABS_ANOMALY_OFF:
                     getDashboard().setAbs(false);
