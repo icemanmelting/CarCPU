@@ -7,13 +7,14 @@ import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import pt.iceman.carcpu.screen.AbsolutePositioning;
+import pt.iceman.carcpu.screen.Screen;
 
 import java.io.File;
 
 /**
  * Created by iceman on 18/07/16.
  */
-public abstract class Dashboard {
+public abstract class Dashboard extends Screen{
     protected Gauge speedGauge;
     protected AbsolutePositioning speedGaugeAbsPos;
     protected double speed;

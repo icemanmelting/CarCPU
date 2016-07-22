@@ -6,7 +6,7 @@
 
     <groupId>pt.iceman</groupId>
     <artifactId>carcpu</artifactId>
-    <version>Alpha-0.0.1</version>
+    <version>alpha-0.0.2</version>
 
 <dependencies>
     <dependency>
