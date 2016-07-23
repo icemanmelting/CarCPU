@@ -1,6 +1,7 @@
 package pt.iceman.carcpu.interpreters.output;
 
 import org.reflections.Reflections;
+import pt.iceman.carcpu.modules.input.InputModule;
 import pt.iceman.carcpu.modules.output.OutputModule;
 
 import java.util.HashMap;
@@ -16,8 +17,8 @@ public class OutputInterpreter extends Thread {
     public Map<Class<? extends OutputModule>, OutputModule> getOutputModules() {
         if (outputModules == null) {
             outputModules = new HashMap<>();
-
-            Reflections reflections = new Reflections(OutputModule.getPackageName());
+            String classPath = OutputModule.class.getPackage().getName();
+            Reflections reflections = new Reflections(classPath);
             Set<Class<? extends OutputModule>> allClasses =
                     reflections.getSubTypesOf(OutputModule.class);
 

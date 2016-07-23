@@ -4,8 +4,8 @@ import org.reflections.Reflections;
 import pt.iceman.carcpu.dashboard.Dashboard;
 import pt.iceman.carcpu.interpreters.Command;
 import pt.iceman.carcpu.modules.input.InputModule;
-import pt.iceman.carcpu.settings.CarSettings;
 import pt.iceman.cardata.CarData;
+import pt.iceman.cardata.settings.CarSettings;
 
 import java.lang.reflect.Constructor;
 import java.sql.SQLException;
@@ -33,6 +33,7 @@ public class InputInterpreter extends Thread {
         this.carData = new CarData();
         this.carSettings = (CarSettings) carData.executeDbCommand(CarData.DBCommand.CARSETTINGSR, new Integer(1));
         getInputModules();
+        configureTripAndAbsoluteKilometers();
     }
 
     public Map<Class<? extends InputModule>, InputModule> getInputModules() {
@@ -57,6 +58,13 @@ public class InputInterpreter extends Thread {
             });
         }
         return inputModules;
+    }
+
+    public void configureTripAndAbsoluteKilometers() {
+        if (carSettings != null && dashboard != null) {
+            dashboard.setDistance(carSettings.getTripKilometers());
+            dashboard.setTotalDistance(carSettings.getConstantKilometers());
+        }
     }
 
     public Map<Byte, Class<? extends InputModule>> getCommandModuleAssociator() {

@@ -23,7 +23,6 @@ public abstract class Dashboard extends Screen{
     protected AbsolutePositioning tempGaugeAbsPos;
     protected double temp;
 
-    protected File fileTemperature = new File("dashBoardSymbols/temperature.jpg");
     protected Image tempImage;
     protected ImageView tempImageView;
     protected AbsolutePositioning tempImageAbsPos;
@@ -36,7 +35,6 @@ public abstract class Dashboard extends Screen{
     protected AbsolutePositioning dieselGaugeAbsPos;
     protected double diesel;
 
-    protected File fileFuel = new File("dashBoardSymbols/fuel.jpg");
     protected Image dieselImage;
     protected ImageView dieselImageView;
     protected AbsolutePositioning dieselImageAbsPos;
@@ -56,49 +54,41 @@ public abstract class Dashboard extends Screen{
     protected AnimationTimer timerDiesel;
     protected AnimationTimer timerTemp;
 
-    protected File fileBrakesOil = new File("dashBoardSymbols/brakesWarning.jpg");
     protected boolean brakesOil;
     protected Image brakesOilImage;
     protected ImageView brakesOilImageView;
     protected AbsolutePositioning brakesOilImageAbsPos;
 
-    protected File fileBattery = new File("dashBoardSymbols/battery.jpg");
     protected boolean battery;
     protected Image batteryImage;
     protected ImageView batteryImageView;
     protected AbsolutePositioning batteryImageAbsPos;
 
-    protected File fileAbs = new File("dashBoardSymbols/abs.jpg");
     protected boolean abs;
     protected Image absImage;
     protected ImageView absImageView;
     protected AbsolutePositioning absImageAbsPos;
 
-    protected File fileParking = new File("dashBoardSymbols/parking.jpg");
     protected boolean parking;
     protected Image parkingImage;
     protected ImageView parkingImageView;
     protected AbsolutePositioning parkingImageAbsPos;
 
-    protected File fileHighBeams = new File("dashBoardSymbols/highBeams.jpg");
     protected boolean highBeams;
     protected Image highBeamsImage;
     protected ImageView highBeamsImageView;
     protected AbsolutePositioning highBeamsImageAbsPos;
 
-    protected File fileOilPressure = new File("dashBoardSymbols/oilPressure.jpg");
     protected boolean oilPressure;
     protected Image oilPressureImage;
     protected ImageView oilPressureImageView;
     protected AbsolutePositioning oilPressureImageAbsPos;
 
-    protected File fileSparkPlug = new File("dashBoardSymbols/sparkPlug.jpg");
     protected boolean sparkPlug;
     protected Image sparkPlugImage;
     protected ImageView sparkPlugImageView;
     protected AbsolutePositioning sparkPlugImageAbsPos;
 
-    protected File fileTurningSigns = new File("dashBoardSymbols/turnSigns.jpg");
     protected boolean turnSigns;
     protected Image turningSignsImage;
     protected ImageView turningSignsImageView;
@@ -108,7 +98,6 @@ public abstract class Dashboard extends Screen{
     protected ImageView backgroundImageView;
     protected AbsolutePositioning backgroundImageAbsPos;
 
-    protected File fileIce = new File("dashBoardSymbols/ice formation.jpg");
     protected boolean ice;
     protected Image iceImage;
     protected ImageView iceImageView;

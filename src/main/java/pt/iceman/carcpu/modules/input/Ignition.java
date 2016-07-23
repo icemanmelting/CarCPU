@@ -12,8 +12,8 @@ import java.util.TimerTask;
  * Created by iceman on 19/07/2016.
  */
 public class Ignition extends InputModule{
-    private static final byte IGNITION_OFF = (byte) 0b10101010;
-    private static final byte IGNITION_ON = (byte) 0b10101011;
+    public static final byte IGNITION_OFF = (byte) 0b10101010;
+    public static final byte IGNITION_ON = (byte) 0b10101011;
     private Timer timer;
 
     public Ignition(InputInterpreter inputInterpreter, Dashboard dashboard) {

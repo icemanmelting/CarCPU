@@ -17,9 +17,10 @@ import java.util.concurrent.BlockingQueue;
  * Created by iceman on 18/07/2016.
  */
 public class McuListenter extends Thread {
+    public static final int CONTROLLER_PORT = 9887;
+    public static final String LISTEN_ADDRESS = "localhost";
     private InputInterpreter inputInterpreter;
     private static BlockingQueue<Command> inputQueue;
-    private int controllerPort = 9887;
     private DatagramSocket serverSocket;
 
     public McuListenter(Dashboard dashboard) throws SQLException, ClassNotFoundException {
@@ -31,7 +32,7 @@ public class McuListenter extends Thread {
     @Override
     public void run() {
         try {
-            serverSocket = new DatagramSocket(controllerPort);
+            serverSocket = new DatagramSocket(CONTROLLER_PORT);
             byte[] receiveData = new byte[1200];
 
             while (true)

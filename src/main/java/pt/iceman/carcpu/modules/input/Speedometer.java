@@ -17,7 +17,8 @@ import java.util.TimerTask;
  */
 public class Speedometer extends InputModule {
     private static final float CAR_TYRE_CIRCUNFERENCE_M = 1.81f;
-    private static final byte SPEED_PULSE = (byte) 0b1011_0000;
+    public static final byte SPEED_PULSE = (byte) 0b1011_0000;
+
     private double speed = 0;
     private int speedCounter = 0;
     private Timer speedDataTimer;
@@ -43,35 +44,38 @@ public class Speedometer extends InputModule {
 
     @Override
     public void interpretCommand(Command command) {
-        byte[] commandValues = command.getValues();
-        if (commands.contains(commandValues[0])) {
-            byte firstSpeedFrequencyByte;
-            byte secondSpeedFrequencyByte;
-            try {
-                firstSpeedFrequencyByte = commandValues[1];
-                secondSpeedFrequencyByte = commandValues[2];
+        if (inputInterpreter.isIgnition()) {
+            byte[] commandValues = command.getValues();
+            if (commands.contains(commandValues[0])) {
+                byte firstSpeedFrequencyByte;
+                byte secondSpeedFrequencyByte;
+                try {
+                    firstSpeedFrequencyByte = commandValues[1];
+                    secondSpeedFrequencyByte = commandValues[2];
 
-                int frequency = (firstSpeedFrequencyByte & 0xFF) | ((secondSpeedFrequencyByte << 8) & 0xFF00);
+                    int frequency = (firstSpeedFrequencyByte & 0xFF) | ((secondSpeedFrequencyByte << 8) & 0xFF00);
 
-                if (frequency > 0) {
-                    speed += (double) (frequency * 40) / (double) 210;
-                }
-
-                if (speedCounter == 16) {
-                    speed = speed / (double) speedCounter;
-
-                    if (speed > 220) {
-                        speed = 0;
-                    } else {
-                        getDashboard().setSpeed(speed);
+                    if (frequency > 0) {
+                        speed += (double) (frequency * 40) / (double) 210;
                     }
-                    speed = 0;
-                    speedCounter = 0;
-                } else {
-                    speedCounter++;
+
+                    if (speedCounter == 16) {
+                        speed = speed / (double) speedCounter;
+
+                        if (speed > 220) {
+                            speed = 0;
+                        } else {
+                            getDashboard().setSpeed(speed);
+                            updateTripKilometers();
+                        }
+                        speed = 0;
+                        speedCounter = 0;
+                    } else {
+                        speedCounter++;
+                    }
+                } catch (Exception e) {
+                    createErrorMessage("Problem setting speed");
                 }
-            } catch (Exception e) {
-                createErrorMessage("Problem setting speed");
             }
         }
     }
@@ -102,25 +106,15 @@ public class Speedometer extends InputModule {
         commands.add(SPEED_PULSE);
     }
 
-    private synchronized void updateTripKilometers(Type type)
-    {
-        if (type == Type.INCREASE)
-        {
-            List<Double> kilometers = inputInterpreter.getCarSettings().increaseTripKilometers(((CAR_TYRE_CIRCUNFERENCE_M) / (double) 1000) * inputInterpreter.getCarSettings().getTyreOffSet());
-            try
-            {
-                getDashboard().setSpeed((int) speed);
-                getDashboard().setDistance(kilometers.get(0));
-                getDashboard().setTotalDistance(kilometers.get(1));
-            } finally
-            {
-                kilometers.clear();
-                kilometers = null;
-            }
-        } else if (type == Type.RESET)
-        {
-            getDashboard().setDistance(0);
-            inputInterpreter.getCarSettings().setTripKilometers(0);
+    private synchronized void updateTripKilometers() {
+        List<Double> kilometers = inputInterpreter.getCarSettings().increaseTripKilometers(((CAR_TYRE_CIRCUNFERENCE_M) / (double) 1000) * inputInterpreter.getCarSettings().getTyreOffSet());
+        try {
+            getDashboard().setSpeed((int) speed);
+            getDashboard().setDistance(kilometers.get(0));
+            getDashboard().setTotalDistance(kilometers.get(1));
+        } finally {
+            kilometers.clear();
+            kilometers = null;
         }
     }
 }
