@@ -24,13 +24,13 @@ public class InputInterpreter extends Thread {
     private Dashboard dashboard;
     private BlockingQueue<Command> inputQueue;
     private boolean ignition;
-    private CarData carData;
     private CarSettings carSettings;
+    private CarData carData;
 
-    public InputInterpreter(Dashboard dashboard, BlockingQueue<Command> inputQueue) throws ClassNotFoundException, SQLException {
+    public InputInterpreter(Dashboard dashboard, CarData carData, BlockingQueue<Command> inputQueue) throws ClassNotFoundException, SQLException {
         this.dashboard = dashboard;
+        this.carData = carData;
         this.inputQueue = inputQueue;
-        this.carData = new CarData();
         this.carSettings = (CarSettings) carData.executeDbCommand(CarData.DBCommand.CARSETTINGSR, new Integer(1));
         getInputModules();
         configureTripAndAbsoluteKilometers();
@@ -79,16 +79,12 @@ public class InputInterpreter extends Thread {
         this.ignition = ignition;
     }
 
-    public CarData getCarData() {
-        return carData;
-    }
-
-    public void setCarData(CarData carData) {
-        this.carData = carData;
-    }
-
     public CarSettings getCarSettings() {
         return carSettings;
+    }
+
+    public CarData getCarData() {
+        return carData;
     }
 
     public void setCarSettings(CarSettings carSettings) {

@@ -3,6 +3,7 @@ package pt.iceman.carcpu.interpreters.output;
 import org.reflections.Reflections;
 import pt.iceman.carcpu.modules.input.InputModule;
 import pt.iceman.carcpu.modules.output.OutputModule;
+import pt.iceman.cardata.CarData;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +14,11 @@ import java.util.Set;
  */
 public class OutputInterpreter extends Thread {
     private static Map<Class<? extends OutputModule>, OutputModule> outputModules;
+    private CarData carData;
+
+    public OutputInterpreter(CarData carData) {
+        this.carData = carData;
+    }
 
     public Map<Class<? extends OutputModule>, OutputModule> getOutputModules() {
         if (outputModules == null) {
