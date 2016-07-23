@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class Fuel extends InputModule {
     private static final int DIESEL_BUFFER_SIZE = 3500;
-    private static final float FUEL_MAX_VOLUME = 55;
+    private static final float FUEL_MAX_VOLUME = 52;
     private static final float FUEL_LEVEL_MAX_RESISTANCE = 38;
     private static final float FUEL_3QUARTERS_RESISTANCE = 69.7f;
     private static final float FUEL_HALF_FULL_RESISTANCE = 123;
