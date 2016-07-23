@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>pt.iceman</groupId>
   <artifactId>carcpu</artifactId>
-  <version>RTM-0.0.2</version>
+  <version>1.0.0</version>
   <build>
     <plugins>
       <plugin>

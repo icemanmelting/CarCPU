@@ -22,7 +22,7 @@
         <dependency>
             <groupId>pt.iceman</groupId>
             <artifactId>cardata</artifactId>
-            <version>alpha-0.0.2</version>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
     <build>
