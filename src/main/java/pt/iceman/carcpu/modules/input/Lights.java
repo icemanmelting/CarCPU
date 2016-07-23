@@ -122,4 +122,16 @@ public class Lights extends InputModule {
         commands.add(HIGH_BEAM_ON);
         commands.add(HIGH_BEAM_OFF);
     }
+
+    @Override
+    public void resetValues() {
+        getDashboard().setOilPressure(false);
+        getDashboard().setBattery(false);
+        getDashboard().setParking(false);
+        getDashboard().setBrakesOil(false);
+        getDashboard().setTurnSigns(false);
+        getDashboard().setSparkPlug(false);
+        getDashboard().setAbs(false);
+        getDashboard().setHighBeams(false);
+    }
 }
