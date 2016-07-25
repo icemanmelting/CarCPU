@@ -10,7 +10,7 @@ import java.sql.SQLException;
  * Created by iceman on 17/07/2016.
  */
 public class CarCPU {
-    public void start(Dashboard dashboard) throws SQLException, ClassNotFoundException {
+    public void start(Dashboard dashboard) throws ClassNotFoundException {
         McuListenter mcuListenter = new McuListenter(dashboard);
         mcuListenter.start();
     }

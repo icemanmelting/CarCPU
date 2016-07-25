@@ -27,7 +27,7 @@ public class McuListenter extends Thread {
     private DatagramSocket serverSocket;
     private CarData carData;
 
-    public McuListenter(Dashboard dashboard) throws SQLException, ClassNotFoundException {
+    public McuListenter(Dashboard dashboard) throws ClassNotFoundException {
         carData = new CarData();
         inputQueue = new ArrayBlockingQueue<>(100);
 

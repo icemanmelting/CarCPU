@@ -27,7 +27,7 @@ public class InputInterpreter extends Thread {
     private CarSettings carSettings;
     private CarData carData;
 
-    public InputInterpreter(Dashboard dashboard, CarData carData, BlockingQueue<Command> inputQueue) throws ClassNotFoundException, SQLException {
+    public InputInterpreter(Dashboard dashboard, CarData carData, BlockingQueue<Command> inputQueue) throws ClassNotFoundException {
         this.dashboard = dashboard;
         this.carData = carData;
         this.inputQueue = inputQueue;

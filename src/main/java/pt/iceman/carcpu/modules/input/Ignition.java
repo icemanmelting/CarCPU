@@ -40,12 +40,7 @@ public class Ignition extends InputModule {
                 }, 5000);
                 inputInterpreter.getInputModules().forEach((c, o) -> o.resetValues());
                 inputInterpreter.setIgnition(false);
-
-                try {
-                    carData.executeDbCommand(CarData.DBCommand.CARSETTINGSW, inputInterpreter.getCarSettings());
-                } catch (SQLException e) {
-                    createErrorMessage(carData, "Could not update carsettings");
-                }
+                carData.executeDbCommand(CarData.DBCommand.CARSETTINGSW, inputInterpreter.getCarSettings());
 
                 createInfoMessage(carData, "Car turned off");
 
