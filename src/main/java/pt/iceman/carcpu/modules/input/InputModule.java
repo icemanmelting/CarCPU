@@ -3,6 +3,7 @@ package pt.iceman.carcpu.modules.input;
 import pt.iceman.carcpu.dashboard.Dashboard;
 import pt.iceman.carcpu.interpreters.Command;
 import pt.iceman.carcpu.interpreters.input.InputInterpreter;
+import pt.iceman.carcpu.modules.Module;
 import pt.iceman.cardata.CarData;
 import pt.iceman.cardata.log.CarLog;
 
@@ -14,7 +15,7 @@ import java.util.List;
 /**
  * Created by iceman on 18/07/2016.
  */
-public abstract class InputModule {
+public abstract class InputModule implements Module {
     protected static final int PULL_UP_RESISTOR_VALUE = 975;
     protected static final double VOLTAGE_LEVEL = 12;
     protected static final int PIN_RESOLUTION = 1023;
@@ -51,20 +52,6 @@ public abstract class InputModule {
 
     public List<Byte> getCommands() {
         return commands;
-    }
-
-    protected void createErrorMessage(String message) {
-        try {
-            inputInterpreter.getCarData().executeDbCommand(CarData.DBCommand.LOGW, new CarLog() {
-                {
-                    setMessage(message);
-                    setLogLevel(LogLevel.ERROR);
-                    setTimeFrame(new Date());
-                }
-            });
-        } catch (SQLException e) {
-            System.out.println("Problem loading db");
-        }
     }
 
     protected double calculateAverage(List<Double> marks) {

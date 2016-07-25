@@ -34,7 +34,7 @@ public class Ignition extends InputModule {
                         try {
                             Runtime.getRuntime().exec("/etc/init.d/shutdownScreen.sh");
                         } catch (IOException e) {
-                            createErrorMessage("Could not read script to shutdown screen");
+                            createErrorMessage(inputInterpreter.getCarData(), "Could not read script to shutdown screen");
                         }
                     }
                 }, 5000);
@@ -44,8 +44,10 @@ public class Ignition extends InputModule {
                 try {
                     inputInterpreter.getCarData().executeDbCommand(CarData.DBCommand.CARSETTINGSW, inputInterpreter.getCarSettings());
                 } catch (SQLException e) {
-                    createErrorMessage("Could not update carsettings");
+                    createErrorMessage(inputInterpreter.getCarData(), "Could not update carsettings");
                 }
+
+                createInfoMessage(inputInterpreter.getCarData(), "Car turned off");
 
             } else {
                 if (timer != null) {
@@ -54,10 +56,12 @@ public class Ignition extends InputModule {
                 try {
                     Runtime.getRuntime().exec("/etc/init.d/turnonscreen.sh");
                 } catch (IOException e) {
-                    createErrorMessage("Could not read script to turn on screen");
+                    createErrorMessage(inputInterpreter.getCarData(), "Could not read script to turn on screen");
                 }
                 inputInterpreter.getInputModules().forEach((c, o) -> o.restart());
                 inputInterpreter.setIgnition(true);
+
+                createInfoMessage(inputInterpreter.getCarData(), "Car turned on");
             }
         }
     }

@@ -74,7 +74,7 @@ public class Speedometer extends InputModule {
                         speedCounter++;
                     }
                 } catch (Exception e) {
-                    createErrorMessage("Problem setting speed");
+                    createErrorMessage(inputInterpreter.getCarData(), "Problem setting speed");
                 }
             }
         }
@@ -114,7 +114,6 @@ public class Speedometer extends InputModule {
             getDashboard().setTotalDistance(kilometers.get(1));
         } finally {
             kilometers.clear();
-            kilometers = null;
         }
     }
 }

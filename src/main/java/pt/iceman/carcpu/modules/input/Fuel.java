@@ -84,7 +84,7 @@ public class Fuel extends InputModule {
             } else if (resistance >= FUEL_RESERVE_RESISTANCE && resistance < FUEL_EMPTY_RESISTANCE) {
                 fuelLevel = (FUEL_MAX_VOLUME * 0.12) - ((resistance - FUEL_EMPTY_RESISTANCE) / (FUEL_EMPTY_RESISTANCE - FUEL_RESERVE_RESISTANCE)) * (FUEL_MAX_VOLUME * 0.12);
                 if (inputInterpreter.isIgnition()) {
-                    createErrorMessage("low fuel level detected!");
+                    createErrorMessage(inputInterpreter.getCarData(), "low fuel level detected!");
                 }
             }
             getDashboard().setDiesel(fuelLevel);

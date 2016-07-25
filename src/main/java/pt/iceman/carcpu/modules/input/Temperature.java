@@ -46,7 +46,7 @@ public class Temperature extends InputModule {
                     }
                     setTemperatureLevel(calculateAverage(tempValues));
                 } catch (Exception e) {
-                    createErrorMessage("Problem setting temperature");
+                    createErrorMessage(inputInterpreter.getCarData(), "Problem setting temperature");
                 }
             }
         }
@@ -73,7 +73,7 @@ public class Temperature extends InputModule {
                 try {
                     inputInterpreter.getCarData().executeDbCommand(CarData.DBCommand.TEMPW, new CustomEntry<>(getDashboard().getTemp(), new Date().toString()));
                 } catch (SQLException e) {
-                    createErrorMessage("Could not insert temperature data");
+                    createErrorMessage(inputInterpreter.getCarData(), "Could not insert temperature data");
                 }
             }
         }, 0, 300000);
@@ -86,8 +86,11 @@ public class Temperature extends InputModule {
         if (inputInterpreter.isIgnition()) {
             getDashboard().setTemp(temperature);
         }
+        if (inputInterpreter.isIgnition() && temperature > 110 && temperature < 120) {
+            createErrorMessage(inputInterpreter.getCarData(), "Engine temperature is rising, slow down or stop for a moment.");
+        }
         if (inputInterpreter.isIgnition() && temperature > 120) {
-            createErrorMessage("Temperature is critical, please turn off the car to cool down the engine!");
+            createErrorMessage(inputInterpreter.getCarData(), "Temperature is critical, please turn off the car to cool down the engine!");
         }
     }
 }
