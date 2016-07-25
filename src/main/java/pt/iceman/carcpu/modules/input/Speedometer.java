@@ -64,7 +64,7 @@ public class Speedometer extends InputModule {
 
                         if (speed > 220) {
                             speed = 0;
-                        } else {
+                        } else if (speed > 5) {
                             getDashboard().setSpeed(speed);
                             updateTripKilometers();
                         }
