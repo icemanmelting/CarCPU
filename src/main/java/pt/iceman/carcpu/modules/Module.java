@@ -17,31 +17,23 @@ public class Module {
     }
 
     protected void createErrorMessage(CarData carData, String message) {
-        try {
-            carData.executeDbCommand(CarData.DBCommand.LOGW, new CarLog() {
-                {
-                    setMessage(message);
-                    setLogLevel(LogLevel.ERROR);
-                    setTimeFrame(new Date());
-                }
-            });
-        } catch (SQLException e) {
-            System.out.println("Problem loading db");
-        }
+        carData.executeDbCommand(CarData.DBCommand.LOGW, new CarLog() {
+            {
+                setMessage(message);
+                setLogLevel(LogLevel.ERROR);
+                setTimeFrame(new Date());
+            }
+        });
     }
 
     protected void createInfoMessage(CarData carData, String message) {
-        try {
-            carData.executeDbCommand(CarData.DBCommand.LOGW, new CarLog() {
-                {
-                    setMessage(message);
-                    setLogLevel(LogLevel.INFO);
-                    setTimeFrame(new Date());
-                }
-            });
-        } catch (SQLException e) {
-            System.out.println("Problem loading db");
-        }
+        carData.executeDbCommand(CarData.DBCommand.LOGW, new CarLog() {
+            {
+                setMessage(message);
+                setLogLevel(LogLevel.INFO);
+                setTimeFrame(new Date());
+            }
+        });
     }
 
     //TODO add methods to update database?

@@ -34,13 +34,13 @@ public class Ignition extends InputModule {
                         try {
                             Runtime.getRuntime().exec("/etc/init.d/shutdownScreen.sh");
                         } catch (IOException e) {
-                            createErrorMessage(inputInterpreter.getCarData(), "Could not read script to shutdown screen");
+                            createErrorMessage(carData, "Could not read script to shutdown screen");
                         }
                     }
                 }, 5000);
                 inputInterpreter.getInputModules().forEach((c, o) -> o.resetValues());
                 inputInterpreter.setIgnition(false);
-                carData.executeDbCommand(CarData.DBCommand.CARSETTINGSW, inputInterpreter.getCarSettings());
+                carData.executeDbCommand(CarData.DBCommand.CARSETTINGSW, carSettings);
 
                 createInfoMessage(carData, "Car turned off");
 

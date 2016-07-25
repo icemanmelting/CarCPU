@@ -70,11 +70,7 @@ public class Temperature extends InputModule {
         tempDataTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                try {
-                    inputInterpreter.getCarData().executeDbCommand(CarData.DBCommand.TEMPW, new CustomEntry<>(getDashboard().getTemp(), new Date().toString()));
-                } catch (SQLException e) {
-                    createErrorMessage(carData, "Could not insert temperature data");
-                }
+                carData.executeDbCommand(CarData.DBCommand.TEMPW, new CustomEntry<>(getDashboard().getTemp(), new Date().toString()));
             }
         }, 0, 300000);
     }
@@ -87,10 +83,10 @@ public class Temperature extends InputModule {
             getDashboard().setTemp(temperature);
         }
         if (inputInterpreter.isIgnition() && temperature > 110 && temperature < 120) {
-            createErrorMessage(inputInterpreter.getCarData(), "Engine temperature is rising, slow down or stop for a moment.");
+            createErrorMessage(carData, "Engine temperature is rising, slow down or stop for a moment.");
         }
         if (inputInterpreter.isIgnition() && temperature > 120) {
-            createErrorMessage(inputInterpreter.getCarData(), "Temperature is critical, please turn off the car to cool down the engine!");
+            createErrorMessage(carData, "Temperature is critical, please turn off the car to cool down the engine!");
         }
     }
 }

@@ -91,12 +91,9 @@ public class Speedometer extends InputModule {
         speedDataTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                try {
-                    carData.executeDbCommand(CarData.DBCommand.SPEEDW, new CustomEntry<>(getDashboard().getSpeed(), new Date().toString()));
-                    carData.executeDbCommand(CarData.DBCommand.CARSETTINGSW, inputInterpreter.getCarSettings());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                carData.executeDbCommand(CarData.DBCommand.SPEEDW, new CustomEntry<>(getDashboard().getSpeed(), new Date().toString()));
+                carData.executeDbCommand(CarData.DBCommand.CARSETTINGSW, inputInterpreter.getCarSettings());
+
             }
         }, 0, 20000);
     }
