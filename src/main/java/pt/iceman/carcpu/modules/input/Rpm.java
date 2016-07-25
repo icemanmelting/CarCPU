@@ -38,7 +38,7 @@ public class Rpm extends InputModule {
                         getDashboard().setRpm(rpm);
                     }
                 } catch (Exception e) {
-                    createErrorMessage(inputInterpreter.getCarData(), "Problem setting rpm");
+                    createErrorMessage(carData, "Problem setting rpm");
                 }
             }
         }

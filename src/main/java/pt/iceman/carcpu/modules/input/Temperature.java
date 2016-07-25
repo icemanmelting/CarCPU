@@ -17,7 +17,7 @@ public class Temperature extends InputModule {
     protected static final float CAR_TERMISTOR_BETA_VALUE = 0.0007620444171f;
     protected static final float CAR_TERMISTOR_C_VALUE = -0.000006511973919f;
     public static final byte TEMPERATURE_VALUE = (byte) 0b1100_0000;
-    public static final int TEMPERATURE_BUFFER_SIZE = 32;
+    public static final int TEMPERATURE_BUFFER_SIZE = 256;
     private List<Double> tempValues;
     private Timer tempDataTimer;
 
@@ -46,7 +46,7 @@ public class Temperature extends InputModule {
                     }
                     setTemperatureLevel(calculateAverage(tempValues));
                 } catch (Exception e) {
-                    createErrorMessage(inputInterpreter.getCarData(), "Problem setting temperature");
+                    createErrorMessage(carData, "Problem setting temperature");
                 }
             }
         }
@@ -73,7 +73,7 @@ public class Temperature extends InputModule {
                 try {
                     inputInterpreter.getCarData().executeDbCommand(CarData.DBCommand.TEMPW, new CustomEntry<>(getDashboard().getTemp(), new Date().toString()));
                 } catch (SQLException e) {
-                    createErrorMessage(inputInterpreter.getCarData(), "Could not insert temperature data");
+                    createErrorMessage(carData, "Could not insert temperature data");
                 }
             }
         }, 0, 300000);

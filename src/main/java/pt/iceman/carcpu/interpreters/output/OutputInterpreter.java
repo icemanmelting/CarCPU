@@ -39,6 +39,10 @@ public class OutputInterpreter extends Thread {
         return outputModules;
     }
 
+    public CarData getCarData() {
+        return carData;
+    }
+
     @Override
     public void run() {
 

@@ -74,7 +74,7 @@ public class Speedometer extends InputModule {
                         speedCounter++;
                     }
                 } catch (Exception e) {
-                    createErrorMessage(inputInterpreter.getCarData(), "Problem setting speed");
+                    createErrorMessage(carData, "Problem setting speed");
                 }
             }
         }
@@ -92,8 +92,8 @@ public class Speedometer extends InputModule {
             @Override
             public void run() {
                 try {
-                    inputInterpreter.getCarData().executeDbCommand(CarData.DBCommand.SPEEDW, new CustomEntry<>(getDashboard().getSpeed(), new Date().toString()));
-                    inputInterpreter.getCarData().executeDbCommand(CarData.DBCommand.CARSETTINGSW, inputInterpreter.getCarSettings());
+                    carData.executeDbCommand(CarData.DBCommand.SPEEDW, new CustomEntry<>(getDashboard().getSpeed(), new Date().toString()));
+                    carData.executeDbCommand(CarData.DBCommand.CARSETTINGSW, inputInterpreter.getCarSettings());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -107,7 +107,7 @@ public class Speedometer extends InputModule {
     }
 
     private synchronized void updateTripKilometers() {
-        List<Double> kilometers = inputInterpreter.getCarSettings().increaseTripKilometers(((CAR_TYRE_CIRCUNFERENCE_M) / (double) 1000) * inputInterpreter.getCarSettings().getTyreOffSet());
+        List<Double> kilometers = carSettings.increaseTripKilometers(((CAR_TYRE_CIRCUNFERENCE_M) / (double) 1000) * carSettings.getTyreOffSet());
         try {
             getDashboard().setSpeed((int) speed);
             getDashboard().setDistance(kilometers.get(0));

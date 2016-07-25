@@ -42,12 +42,12 @@ public class Ignition extends InputModule {
                 inputInterpreter.setIgnition(false);
 
                 try {
-                    inputInterpreter.getCarData().executeDbCommand(CarData.DBCommand.CARSETTINGSW, inputInterpreter.getCarSettings());
+                    carData.executeDbCommand(CarData.DBCommand.CARSETTINGSW, inputInterpreter.getCarSettings());
                 } catch (SQLException e) {
-                    createErrorMessage(inputInterpreter.getCarData(), "Could not update carsettings");
+                    createErrorMessage(carData, "Could not update carsettings");
                 }
 
-                createInfoMessage(inputInterpreter.getCarData(), "Car turned off");
+                createInfoMessage(carData, "Car turned off");
 
             } else {
                 if (timer != null) {
@@ -56,12 +56,12 @@ public class Ignition extends InputModule {
                 try {
                     Runtime.getRuntime().exec("/etc/init.d/turnonscreen.sh");
                 } catch (IOException e) {
-                    createErrorMessage(inputInterpreter.getCarData(), "Could not read script to turn on screen");
+                    createErrorMessage(carData, "Could not read script to turn on screen");
                 }
                 inputInterpreter.getInputModules().forEach((c, o) -> o.restart());
                 inputInterpreter.setIgnition(true);
 
-                createInfoMessage(inputInterpreter.getCarData(), "Car turned on");
+                createInfoMessage(carData, "Car turned on");
             }
         }
     }

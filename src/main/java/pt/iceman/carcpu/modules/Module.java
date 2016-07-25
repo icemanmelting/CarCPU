@@ -9,8 +9,14 @@ import java.util.Date;
 /**
  * Created by iceman on 25/07/2016.
  */
-public interface Module {
-    default void createErrorMessage(CarData carData, String message) {
+public class Module {
+    protected CarData carData;
+
+    public Module(CarData carData) {
+        this.carData = carData;
+    }
+
+    protected void createErrorMessage(CarData carData, String message) {
         try {
             carData.executeDbCommand(CarData.DBCommand.LOGW, new CarLog() {
                 {
@@ -24,7 +30,7 @@ public interface Module {
         }
     }
 
-    default void createInfoMessage(CarData carData, String message) {
+    protected void createInfoMessage(CarData carData, String message) {
         try {
             carData.executeDbCommand(CarData.DBCommand.LOGW, new CarLog() {
                 {
