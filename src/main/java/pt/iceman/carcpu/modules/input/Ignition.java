@@ -42,7 +42,7 @@ public class Ignition extends InputModule {
                 inputInterpreter.setIgnition(false);
                 carData.executeDbCommand(CarData.DBCommand.CARSETTINGSW, carSettings);
 
-                createInfoMessage(carData, "Car turned off");
+                createInfoMessage(carData, "Ignition turned off");
 
             } else {
                 if (timer != null) {
@@ -56,7 +56,7 @@ public class Ignition extends InputModule {
                 inputInterpreter.getInputModules().forEach((c, o) -> o.restart());
                 inputInterpreter.setIgnition(true);
 
-                createInfoMessage(carData, "Car turned on");
+                createInfoMessage(carData, "Ignition turned on");
             }
         }
     }
