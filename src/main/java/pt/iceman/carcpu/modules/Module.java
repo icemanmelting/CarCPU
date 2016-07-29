@@ -36,5 +36,13 @@ public class Module {
         });
     }
 
-    //TODO add methods to update database?
+    protected void createWarningMessage(CarData carData, String message) {
+        carData.executeDbCommand(CarData.DBCommand.LOGW, new CarLog() {
+            {
+                setMessage(message);
+                setLogLevel(LogLevel.WARNIMG);
+                setTimeFrame(new Date());
+            }
+        });
+    }
 }

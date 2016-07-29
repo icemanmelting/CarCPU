@@ -37,15 +37,19 @@ public class Temperature extends InputModule {
                 try {
                     firstTemperatureByte = commandValues[1];
                     secondTemperatureByte = commandValues[2];
+
                     int analogTValue = (firstTemperatureByte & 0xFF) | ((secondTemperatureByte << 8) & 0xFF00);
+
                     if (tempValues.size() == TEMPERATURE_BUFFER_SIZE) {
                         tempValues.remove(tempValues.size() - 1);
                         tempValues.add(0, (double) analogTValue);
                     } else {
                         tempValues.add((double) analogTValue);
                     }
+
                     setTemperatureLevel(calculateAverage(tempValues));
                 } catch (Exception e) {
+                    System.out.println(e.getMessage());
                     createErrorMessage(carData, "Problem setting temperature");
                 }
             }
@@ -67,6 +71,7 @@ public class Temperature extends InputModule {
     @Override
     public void restart() {
         tempDataTimer = new Timer();
+
         tempDataTimer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -79,18 +84,21 @@ public class Temperature extends InputModule {
         double voltageLevel = analogLevel * STEP;
         double resistance = (voltageLevel * PULL_UP_RESISTOR_VALUE) / (VOLTAGE_LEVEL - voltageLevel);
         double temperature = 1 / (CAR_TERMISTOR_ALPHA_VALUE + CAR_TERMISTOR_BETA_VALUE * (Math.log(resistance)) + CAR_TERMISTOR_C_VALUE * Math.log(resistance) * Math.log(resistance) * Math.log(resistance)) - 273.15;
+
         if (inputInterpreter.isIgnition()) {
             getDashboard().setTemp(temperature);
 
-            if(temperature > carTrip.getMaxTemperature()) {
+            if (temperature > carTrip.getMaxTemperature()) {
                 carTrip.setMaxSpeed(temperature);
             }
         }
+
         if (inputInterpreter.isIgnition() && temperature > 110 && temperature < 120) {
-            createErrorMessage(carData, "Engine temperature is rising, slow down or stop for a moment.");
+            createWarningMessage(carData, "Engine temperature is rising, slow down or stop for a moment.");
         }
+
         if (inputInterpreter.isIgnition() && temperature > 120) {
-            createErrorMessage(carData, "Temperature is critical, please turn off the car to cool down the engine!");
+            createWarningMessage(carData, "Temperature is critical, please turn off the car to cool down the engine!");
         }
     }
 }

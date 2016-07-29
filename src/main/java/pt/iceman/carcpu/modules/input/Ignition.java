@@ -27,9 +27,11 @@ public class Ignition extends InputModule {
     @Override
     public void interpretCommand(Command command) {
         byte[] commandValues = command.getValues();
+
         if (commands.contains(commandValues[0])) {
             if (commandValues[0] == IGNITION_OFF) {
                 timer = new Timer();
+
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
@@ -40,20 +42,27 @@ public class Ignition extends InputModule {
                         }
                     }
                 }, 5000);
+
                 inputInterpreter.getInputModules().forEach((c, o) -> o.resetValues());
                 inputInterpreter.setIgnition(false);
 
                 carTrip.setEndTime(new Date());
                 carTrip.setEndingKm(getDashboard().getTotalDistance());
+
                 double tripLength = carTrip.getEndingKm() - carTrip.getStartingKm();
                 carTrip.setTripLengthKm(tripLength);
+
                 long tripDuration = carTrip.getEndTime().getTime() - carTrip.getStartTime().getTime();
                 carTrip.setTripDuration(tripDuration);
-                double speedAverage = carTrip.getTripLengthKm() / TimeUnit.MILLISECONDS.toHours((long) carTrip.getTripDuration());
+
+                double tripdurationSeconds = TimeUnit.MILLISECONDS.toSeconds((long) carTrip.getTripDuration());
+                double tripDurationHours = tripdurationSeconds / 3600;
+                double speedAverage = carTrip.getTripLengthKm() / tripDurationHours;
                 carTrip.setAverageSpeed(speedAverage);
 
                 carData.executeDbCommand(CarData.DBCommand.CARSETTINGSW, carSettings);
                 carData.executeDbCommand(CarData.DBCommand.CARTRIPW, carTrip);
+
                 createInfoMessage(carData, "Ignition turned off");
             } else {
                 if (timer != null) {
