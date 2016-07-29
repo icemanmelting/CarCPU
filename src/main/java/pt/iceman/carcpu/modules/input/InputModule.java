@@ -30,7 +30,6 @@ public abstract class InputModule extends Module {
 
     public InputModule(InputInterpreter inputInterpreter, Dashboard dashboard) {
         super(inputInterpreter.getCarData());
-        carTrip = new CarTrip();
         this.inputInterpreter = inputInterpreter;
         this.carSettings = this.inputInterpreter.getCarSettings();
         this.dashboard = dashboard;
@@ -43,10 +42,6 @@ public abstract class InputModule extends Module {
 
     public void setDashboard(Dashboard dashboard) {
         this.dashboard = dashboard;
-    }
-
-    public CarTrip getCarTrip() {
-        return carTrip;
     }
 
     public void interpretCommand(Command command) {

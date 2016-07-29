@@ -4,6 +4,7 @@ import pt.iceman.carcpu.dashboard.Dashboard;
 import pt.iceman.carcpu.interpreters.Command;
 import pt.iceman.carcpu.interpreters.input.InputInterpreter;
 import pt.iceman.cardata.CarData;
+import pt.iceman.cardata.log.CarTrip;
 
 import java.io.IOException;
 import java.util.Date;
@@ -41,6 +42,7 @@ public class Ignition extends InputModule {
                 }, 5000);
                 inputInterpreter.getInputModules().forEach((c, o) -> o.resetValues());
                 inputInterpreter.setIgnition(false);
+
                 carTrip.setEndTime(new Date());
                 carTrip.setEndingKm(getDashboard().getTotalDistance());
                 double tripLength = carTrip.getEndingKm() - carTrip.getStartingKm();
@@ -49,7 +51,9 @@ public class Ignition extends InputModule {
                 carTrip.setTripDuration(tripDuration);
                 double speedAverage = carTrip.getTripLengthKm() / TimeUnit.MILLISECONDS.toHours((long) carTrip.getTripDuration());
                 carTrip.setAverageSpeed(speedAverage);
+
                 carData.executeDbCommand(CarData.DBCommand.CARSETTINGSW, carSettings);
+                carData.executeDbCommand(CarData.DBCommand.CARTRIPW, carTrip);
                 createInfoMessage(carData, "Ignition turned off");
             } else {
                 if (timer != null) {
@@ -64,6 +68,7 @@ public class Ignition extends InputModule {
                 inputInterpreter.setIgnition(true);
 
                 createInfoMessage(carData, "Ignition turned on");
+                carTrip = new CarTrip();
                 carTrip.setStartTime(new Date());
                 carTrip.setStartingKm(getDashboard().getTotalDistance());
             }
