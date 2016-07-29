@@ -6,9 +6,10 @@ import pt.iceman.carcpu.interpreters.input.InputInterpreter;
 import pt.iceman.cardata.CarData;
 
 import java.io.IOException;
-import java.sql.SQLException;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by iceman on 19/07/2016.
@@ -40,10 +41,16 @@ public class Ignition extends InputModule {
                 }, 5000);
                 inputInterpreter.getInputModules().forEach((c, o) -> o.resetValues());
                 inputInterpreter.setIgnition(false);
+                carTrip.setEndTime(new Date());
+                carTrip.setEndingKm(getDashboard().getTotalDistance());
+                double tripLength = carTrip.getEndingKm() - carTrip.getStartingKm();
+                carTrip.setTripLengthKm(tripLength);
+                long tripDuration = carTrip.getEndTime().getTime() - carTrip.getStartTime().getTime();
+                carTrip.setTripDuration(tripDuration);
+                double speedAverage = carTrip.getTripLengthKm() / TimeUnit.MILLISECONDS.toHours((long) carTrip.getTripDuration());
+                carTrip.setAverageSpeed(speedAverage);
                 carData.executeDbCommand(CarData.DBCommand.CARSETTINGSW, carSettings);
-
                 createInfoMessage(carData, "Ignition turned off");
-
             } else {
                 if (timer != null) {
                     timer.cancel();
@@ -57,6 +64,8 @@ public class Ignition extends InputModule {
                 inputInterpreter.setIgnition(true);
 
                 createInfoMessage(carData, "Ignition turned on");
+                carTrip.setStartTime(new Date());
+                carTrip.setStartingKm(getDashboard().getTotalDistance());
             }
         }
     }

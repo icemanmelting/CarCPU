@@ -109,6 +109,10 @@ public class Speedometer extends InputModule {
             getDashboard().setSpeed((int) speed);
             getDashboard().setDistance(kilometers.get(0));
             getDashboard().setTotalDistance(kilometers.get(1));
+
+            if(speed > carTrip.getMaxSpeed()) {
+                carTrip.setMaxSpeed(speed);
+            }
         } finally {
             kilometers.clear();
         }

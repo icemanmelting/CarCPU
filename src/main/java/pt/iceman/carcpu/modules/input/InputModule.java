@@ -6,6 +6,7 @@ import pt.iceman.carcpu.interpreters.input.InputInterpreter;
 import pt.iceman.carcpu.modules.Module;
 import pt.iceman.cardata.CarData;
 import pt.iceman.cardata.log.CarLog;
+import pt.iceman.cardata.log.CarTrip;
 import pt.iceman.cardata.settings.CarSettings;
 
 import java.sql.SQLException;
@@ -23,11 +24,13 @@ public abstract class InputModule extends Module {
     protected static final double STEP = (double) 15 / (double) PIN_RESOLUTION;
     protected InputInterpreter inputInterpreter;
     protected CarSettings carSettings;
+    protected CarTrip carTrip;
     protected List<Byte> commands;
     private Dashboard dashboard;
 
     public InputModule(InputInterpreter inputInterpreter, Dashboard dashboard) {
         super(inputInterpreter.getCarData());
+        carTrip = new CarTrip();
         this.inputInterpreter = inputInterpreter;
         this.carSettings = this.inputInterpreter.getCarSettings();
         this.dashboard = dashboard;
@@ -40,6 +43,10 @@ public abstract class InputModule extends Module {
 
     public void setDashboard(Dashboard dashboard) {
         this.dashboard = dashboard;
+    }
+
+    public CarTrip getCarTrip() {
+        return carTrip;
     }
 
     public void interpretCommand(Command command) {

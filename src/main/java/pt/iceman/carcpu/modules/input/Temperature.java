@@ -81,6 +81,10 @@ public class Temperature extends InputModule {
         double temperature = 1 / (CAR_TERMISTOR_ALPHA_VALUE + CAR_TERMISTOR_BETA_VALUE * (Math.log(resistance)) + CAR_TERMISTOR_C_VALUE * Math.log(resistance) * Math.log(resistance) * Math.log(resistance)) - 273.15;
         if (inputInterpreter.isIgnition()) {
             getDashboard().setTemp(temperature);
+
+            if(temperature > carTrip.getMaxTemperature()) {
+                carTrip.setMaxSpeed(temperature);
+            }
         }
         if (inputInterpreter.isIgnition() && temperature > 110 && temperature < 120) {
             createErrorMessage(carData, "Engine temperature is rising, slow down or stop for a moment.");
