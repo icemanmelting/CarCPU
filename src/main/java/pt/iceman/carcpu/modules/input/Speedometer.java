@@ -6,7 +6,6 @@ import pt.iceman.carcpu.interpreters.input.InputInterpreter;
 import pt.iceman.cardata.CarData;
 import pt.iceman.cardata.utils.CustomEntry;
 
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
@@ -110,8 +109,8 @@ public class Speedometer extends InputModule {
             getDashboard().setDistance(kilometers.get(0));
             getDashboard().setTotalDistance(kilometers.get(1));
 
-            if(speed > carTrip.getMaxSpeed()) {
-                carTrip.setMaxSpeed(speed);
+            if(speed > inputInterpreter.getCarTrip().getMaxSpeed()) {
+                inputInterpreter.getCarTrip().setMaxSpeed(speed);
             }
         } finally {
             kilometers.clear();

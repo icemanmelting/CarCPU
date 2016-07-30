@@ -5,6 +5,7 @@ import pt.iceman.carcpu.dashboard.Dashboard;
 import pt.iceman.carcpu.interpreters.Command;
 import pt.iceman.carcpu.modules.input.InputModule;
 import pt.iceman.cardata.CarData;
+import pt.iceman.cardata.log.CarTrip;
 import pt.iceman.cardata.settings.CarSettings;
 
 import java.lang.reflect.Constructor;
@@ -26,11 +27,13 @@ public class InputInterpreter extends Thread {
     private boolean ignition;
     private CarSettings carSettings;
     private CarData carData;
+    private CarTrip carTrip;
 
     public InputInterpreter(Dashboard dashboard, CarData carData, BlockingQueue<Command> inputQueue) throws ClassNotFoundException {
         this.dashboard = dashboard;
         this.carData = carData;
         this.inputQueue = inputQueue;
+        this.carTrip = new CarTrip();
         this.carSettings = (CarSettings) carData.executeDbCommand(CarData.DBCommand.CARSETTINGSR, new Integer(1));
         getInputModules();
         configureTripAndAbsoluteKilometers();
@@ -89,6 +92,14 @@ public class InputInterpreter extends Thread {
 
     public void setCarSettings(CarSettings carSettings) {
         this.carSettings = carSettings;
+    }
+
+    public CarTrip getCarTrip() {
+        return carTrip;
+    }
+
+    public void setCarTrip(CarTrip carTrip) {
+        this.carTrip = carTrip;
     }
 
     @Override

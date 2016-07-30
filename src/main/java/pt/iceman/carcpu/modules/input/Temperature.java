@@ -88,8 +88,8 @@ public class Temperature extends InputModule {
         if (inputInterpreter.isIgnition()) {
             getDashboard().setTemp(temperature);
 
-            if (temperature > carTrip.getMaxTemperature()) {
-                carTrip.setMaxSpeed(temperature);
+            if (temperature > inputInterpreter.getCarTrip().getMaxTemperature()) {
+                inputInterpreter.getCarTrip().setMaxTemperature(temperature);
             }
         }
 

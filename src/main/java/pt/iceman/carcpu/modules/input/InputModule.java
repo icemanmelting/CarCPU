@@ -4,14 +4,10 @@ import pt.iceman.carcpu.dashboard.Dashboard;
 import pt.iceman.carcpu.interpreters.Command;
 import pt.iceman.carcpu.interpreters.input.InputInterpreter;
 import pt.iceman.carcpu.modules.Module;
-import pt.iceman.cardata.CarData;
-import pt.iceman.cardata.log.CarLog;
 import pt.iceman.cardata.log.CarTrip;
 import pt.iceman.cardata.settings.CarSettings;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,7 +20,6 @@ public abstract class InputModule extends Module {
     protected static final double STEP = (double) 15 / (double) PIN_RESOLUTION;
     protected InputInterpreter inputInterpreter;
     protected CarSettings carSettings;
-    protected CarTrip carTrip;
     protected List<Byte> commands;
     private Dashboard dashboard;
 
