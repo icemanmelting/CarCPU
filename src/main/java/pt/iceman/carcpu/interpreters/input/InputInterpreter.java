@@ -10,11 +10,9 @@ import pt.iceman.cardata.settings.CarSettings;
 
 import java.lang.reflect.Constructor;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by iceman on 18/07/16.
@@ -41,7 +39,7 @@ public class InputInterpreter extends Thread {
 
     public Map<Class<? extends InputModule>, InputModule> getInputModules() {
         if (inputModules == null) {
-            inputModules = new HashMap<>();
+            inputModules = new ConcurrentHashMap<>();
             commandModuleAssociator = new HashMap<>();
             String classPath = InputModule.class.getPackage().getName();
             Reflections reflections = new Reflections(classPath);
@@ -60,7 +58,8 @@ public class InputInterpreter extends Thread {
                 }
             });
         }
-        return inputModules;
+
+        return Collections.synchronizedMap(inputModules);
     }
 
     public void configureTripAndAbsoluteKilometers() {
@@ -108,7 +107,10 @@ public class InputInterpreter extends Thread {
             if (inputQueue.size() > 0) {
                 try {
                     Command cmd = inputQueue.take();
-                    inputModules.get(cmd.getClazz()).interpretCommand(cmd);
+                    Map<Class<? extends InputModule>, InputModule> inputModules = getInputModules();
+                    synchronized (inputModules) {
+                        inputModules.get(cmd.getClazz()).interpretCommand(cmd);
+                    }
                 } catch (InterruptedException e) {
                     System.out.println("Problem taking element from queue!");
                 }
