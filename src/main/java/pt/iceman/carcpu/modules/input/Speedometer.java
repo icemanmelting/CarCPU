@@ -17,7 +17,7 @@ import java.util.TimerTask;
 public class Speedometer extends InputModule {
     private static final float CAR_TYRE_CIRCUNFERENCE_M = 1.81f;
     private static final double CAR_DISTANCE_PER_ROTATION = ((CAR_TYRE_CIRCUNFERENCE_M) / (double) 1000);
-    private static double distanceValue = 0d;
+    private static int rotationCounter = 0;
     public static final byte SPEED_PULSE = (byte) 0b1011_0000;
 
     private double speed = 0;
@@ -57,9 +57,14 @@ public class Speedometer extends InputModule {
                     int frequency = (firstSpeedFrequencyByte & 0xFF) | ((secondSpeedFrequencyByte << 8) & 0xFF00);
 
                     if (frequency > 0) {
-                        speed += (double) (frequency * 40) / (double) 210;
+                        speed += (double) (frequency * 42) / (double) 210;
                     }
-
+                    if (rotationCounter == 55) {
+                        updateTripKilometers(0.1d);
+                        rotationCounter = 0;
+                    } else {
+                        rotationCounter++;
+                    }
                     if (speedCounter == 16) {
                         speed = speed / (double) speedCounter;
 
@@ -67,12 +72,6 @@ public class Speedometer extends InputModule {
                             speed = 0;
                         } else if (speed > 5) {
                             getDashboard().setSpeed(speed);
-                            distanceValue += CAR_DISTANCE_PER_ROTATION * carSettings.getTyreOffSet();
-
-                            if(distanceValue > 0.09d) {
-                                updateTripKilometers(distanceValue);
-                                distanceValue = 0d;
-                            }
                         }
                         speed = 0;
                         speedCounter = 0;
@@ -116,7 +115,7 @@ public class Speedometer extends InputModule {
             getDashboard().setDistance(kilometers.get(0));
             getDashboard().setTotalDistance(kilometers.get(1));
 
-            if(speed > inputInterpreter.getCarTrip().getMaxSpeed()) {
+            if (speed > inputInterpreter.getCarTrip().getMaxSpeed()) {
                 inputInterpreter.getCarTrip().setMaxSpeed(speed);
             }
         } finally {
