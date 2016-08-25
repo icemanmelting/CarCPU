@@ -132,11 +132,11 @@ public abstract class Dashboard extends Screen{
         return totalDistance;
     }
 
-    public void setDistance(double distance) {
+    public synchronized void setDistance(double distance) {
         this.distance = distance;
     }
 
-    public void setTotalDistance(double totalDistance) {
+    public synchronized void setTotalDistance(double totalDistance) {
         this.totalDistance = totalDistance;
     }
 
