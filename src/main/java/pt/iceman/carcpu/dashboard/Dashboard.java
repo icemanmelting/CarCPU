@@ -124,11 +124,11 @@ public abstract class Dashboard extends Screen{
         this.rpm = rpm;
     }
 
-    public double getDistance() {
+    public synchronized double getDistance() {
         return distance;
     }
 
-    public double getTotalDistance() {
+    public synchronized double getTotalDistance() {
         return totalDistance;
     }
 

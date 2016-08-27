@@ -31,7 +31,7 @@ public abstract class InputModule extends Module {
         commands = new ArrayList<>();
     }
 
-    public Dashboard getDashboard() {
+    public synchronized Dashboard getDashboard() {
         return dashboard;
     }
 
