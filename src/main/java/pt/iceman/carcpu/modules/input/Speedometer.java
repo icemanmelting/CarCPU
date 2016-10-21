@@ -6,10 +6,7 @@ import pt.iceman.carcpu.interpreters.input.InputInterpreter;
 import pt.iceman.cardata.CarData;
 import pt.iceman.cardata.utils.CustomEntry;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 /**
  * Created by iceman on 17/07/2016.
@@ -20,6 +17,7 @@ public class Speedometer extends InputModule {
     private static int wheelRotationCounter = 0;
     public static final byte SPEED_PULSE = (byte) 0b1011_0000;
     private Timer speedDataTimer;
+    private List<Integer> speedValues;
 
     public enum Type {
         RESET("reset"),
@@ -38,6 +36,7 @@ public class Speedometer extends InputModule {
 
     public Speedometer(InputInterpreter inputInterpreter, Dashboard dashboard) {
         super(inputInterpreter, dashboard);
+        speedValues = new ArrayList<>();
     }
 
     @Override
@@ -87,11 +86,7 @@ public class Speedometer extends InputModule {
 
     private synchronized void updateTripKilometers(int speed) {
         double distance = CAR_DISTANCE_PER_ROTATION;
-        if (speed >= 20) {
-            distance = distance * 2;
-        }
-
-        getDashboard().setDistance(getDashboard().getDistance() + distance);
+        getDashboard().setDistance((0.8039d * Math.pow(1.0073d, speed)) * distance);
         carSettings.setTripKilometers(getDashboard().getDistance());
         getDashboard().setTotalDistance(getDashboard().getTotalDistance() + distance);
         carSettings.setConstantKilometers(getDashboard().getTotalDistance());
