@@ -86,7 +86,7 @@ public class Speedometer extends InputModule {
 
     private synchronized void updateTripKilometers(int speed) {
         double distance = CAR_DISTANCE_PER_ROTATION;
-        getDashboard().setDistance((0.8039d * Math.pow(1.0073d, speed)) * distance);
+        getDashboard().setDistance((0.89288d * Math.pow(1.0073d, speed)) * distance);
         carSettings.setTripKilometers(getDashboard().getDistance());
         getDashboard().setTotalDistance(getDashboard().getTotalDistance() + distance);
         carSettings.setConstantKilometers(getDashboard().getTotalDistance());
