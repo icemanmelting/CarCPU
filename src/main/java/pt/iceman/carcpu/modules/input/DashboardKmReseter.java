@@ -24,7 +24,7 @@ public class DashboardKmReseter extends InputModule {
     public void interpretCommand(Command command) {
         byte[] commandValues = command.getValues();
         if (commands.contains(commandValues[0])) {
-            getDashboard().setDistance(0);
+            getDashboard().resetDistance();
             carSettings.setTripKilometers(0);
         }
     }
