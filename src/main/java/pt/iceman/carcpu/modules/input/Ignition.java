@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 public class Ignition extends InputModule {
     public static final byte IGNITION_OFF = (byte) 0b10101010;
     public static final byte IGNITION_ON = (byte) 0b10101011;
+    public static final byte TURN_OFF = (byte) 0b10101000;
     private Timer timer;
 
     public Ignition(InputInterpreter inputInterpreter, Dashboard dashboard) {
@@ -64,7 +65,7 @@ public class Ignition extends InputModule {
                 carData.executeDbCommand(CarData.DBCommand.CARTRIPW, inputInterpreter.getCarTrip());
 
                 createInfoMessage(carData, "Ignition turned off");
-            } else {
+            } else if(commandValues[0] == IGNITION_ON) {
                 if (timer != null) {
                     timer.cancel();
                 }
@@ -80,6 +81,12 @@ public class Ignition extends InputModule {
                 inputInterpreter.setCarTrip(new CarTrip());
                 inputInterpreter.getCarTrip().setStartTime(new Date());
                 inputInterpreter.getCarTrip().setStartingKm(getDashboard().getTotalDistance());
+            } else if(commandValues[0] == TURN_OFF) {
+                try {
+                    Runtime.getRuntime().exec("/etc/init.d/turnOff.sh");
+                } catch (IOException e) {
+                    createErrorMessage(carData, "Could not read script to turn cpu off");
+                }
             }
         }
     }
