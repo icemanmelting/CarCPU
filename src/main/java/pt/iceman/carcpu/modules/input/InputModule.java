@@ -14,13 +14,13 @@ import java.util.List;
  * Created by iceman on 18/07/2016.
  */
 public abstract class InputModule extends Module {
-    protected static final int PULL_UP_RESISTOR_VALUE = 975;
-    protected static final double VOLTAGE_LEVEL = 12;
-    protected static final int PIN_RESOLUTION = 1023;
-    protected static final double STEP = (double) 15 / (double) PIN_RESOLUTION;
-    protected InputInterpreter inputInterpreter;
-    protected CarSettings carSettings;
-    protected List<Byte> commands;
+    static final int PULL_UP_RESISTOR_VALUE = 975;
+    static final double VOLTAGE_LEVEL = 12;
+    static final int PIN_RESOLUTION = 1023;
+    static final double STEP = (double) 15 / (double) PIN_RESOLUTION;
+    InputInterpreter inputInterpreter;
+    CarSettings carSettings;
+    List<Byte> commands;
     private Dashboard dashboard;
 
     public InputModule(InputInterpreter inputInterpreter, Dashboard dashboard) {
@@ -55,6 +55,7 @@ public abstract class InputModule extends Module {
         return commands;
     }
 
+    @Deprecated
     protected double calculateAverage(List<Double> marks) {
         Double sum = 0d;
         if (!marks.isEmpty()) {

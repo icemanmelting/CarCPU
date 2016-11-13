@@ -6,6 +6,7 @@ import pt.iceman.carcpu.interpreters.input.InputInterpreter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.OptionalDouble;
 
 /**
  * Created by iceman on 17/07/2016.
@@ -19,7 +20,7 @@ public class Fuel extends InputModule {
     private static final float FUEL_1QUARTER_FULL_RESISTANCE = 188;
     private static final float FUEL_RESERVE_RESISTANCE = 232.8f;
     private static final float FUEL_EMPTY_RESISTANCE = 283;
-    public static final byte DIESEL_VALUE = (byte) 0b1110_0000;
+    private static final byte DIESEL_VALUE = (byte) 0b1110_0000;
     private boolean setInitialFuelLevel = true;
     private List<Double> fuelValues;
 
@@ -46,7 +47,10 @@ public class Fuel extends InputModule {
                         fuelValues.add((double) analogValue);
                     }
 
-                    setFuelLevel(calculateAverage(fuelValues));
+                    OptionalDouble avg = fuelValues.stream().mapToDouble(r -> r).average();
+                    if (avg.isPresent()) {
+                        setFuelLevel(avg.getAsDouble());
+                    }
                 }
             }
         }
@@ -63,7 +67,7 @@ public class Fuel extends InputModule {
         getDashboard().setDiesel(0);
     }
 
-    public void setFuelLevel(double analogLevel) {
+    private void setFuelLevel(double analogLevel) {
         double voltage = analogLevel * STEP;
         double resistance = (voltage * PULL_UP_RESISTOR_VALUE) / (VOLTAGE_LEVEL - voltage);
         double fuelLevel = 0;
