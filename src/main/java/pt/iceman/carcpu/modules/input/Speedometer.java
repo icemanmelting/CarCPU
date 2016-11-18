@@ -14,7 +14,6 @@ import java.util.*;
 public class Speedometer extends InputModule {
     private static final float CAR_TYRE_CIRCUNFERENCE_M = 1.81f;
     private static final double CAR_DISTANCE_PER_ROTATION = ((CAR_TYRE_CIRCUNFERENCE_M) / (double) 1000);
-    private static int wheelRotationCounter = 0;
     public static final byte SPEED_PULSE = (byte) 0b1011_0000;
     private Timer speedDataTimer;
     private List<Integer> speedValues;
