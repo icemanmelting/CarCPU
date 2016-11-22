@@ -19,6 +19,10 @@ public abstract class Dashboard extends Screen{
     protected AbsolutePositioning speedGaugeAbsPos;
     protected double speed;
 
+    protected Lcd gearLcd;
+    protected AbsolutePositioning gearLcdAbsPos;
+    protected double gear;
+
     protected Gauge tempGauge;
     protected AbsolutePositioning tempGaugeAbsPos;
     protected double temp;
@@ -122,6 +126,14 @@ public abstract class Dashboard extends Screen{
 
     public void setRpm(double rpm) {
         this.rpm = rpm;
+    }
+
+    public double getGear() {
+        return gear;
+    }
+
+    public void setGear(double gear) {
+        this.gear = gear;
     }
 
     public synchronized double getDistance() {
