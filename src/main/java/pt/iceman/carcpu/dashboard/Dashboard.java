@@ -6,6 +6,7 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import pt.iceman.carai.neuralnet.NeuralNetwork;
 import pt.iceman.carcpu.screen.AbsolutePositioning;
 import pt.iceman.carcpu.screen.Screen;
 
@@ -15,12 +16,14 @@ import java.io.File;
  * Created by iceman on 18/07/16.
  */
 public abstract class Dashboard extends Screen{
+    protected NeuralNetwork nn;
     protected Gauge speedGauge;
     protected AbsolutePositioning speedGaugeAbsPos;
     protected double speed;
 
-    protected Lcd gearLcd;
-    protected AbsolutePositioning gearLcdAbsPos;
+    protected Image gearShift;
+    protected ImageView gearShiftView;
+    protected AbsolutePositioning gearShiftAbsPos;
     protected double gear;
 
     protected Gauge tempGauge;
@@ -53,6 +56,7 @@ public abstract class Dashboard extends Screen{
 
     protected AnimationTimer timerSpeed;
     protected AnimationTimer timerRpm;
+    protected AnimationTimer timerGear;
     protected AnimationTimer timerDistance;
     protected AnimationTimer timerTotalDistance;
     protected AnimationTimer timerDiesel;
@@ -110,6 +114,13 @@ public abstract class Dashboard extends Screen{
     public Dashboard() {
         super();
         configureInstruments();
+        this.nn = new NeuralNetwork(
+                0.5576882884109496,
+                0.3285294608908279,
+                0.5328666792713027,
+                0.7115359993634642,
+                0.7879252794415132
+        );
     }
 
     public Double getSpeed() {
