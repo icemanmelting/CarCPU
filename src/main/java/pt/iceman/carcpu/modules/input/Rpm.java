@@ -1,6 +1,5 @@
 package pt.iceman.carcpu.modules.input;
 
-import pt.iceman.carai.neuralnet.NeuralNetwork;
 import pt.iceman.carcpu.dashboard.Dashboard;
 import pt.iceman.carcpu.interpreters.Command;
 import pt.iceman.carcpu.interpreters.input.InputInterpreter;
