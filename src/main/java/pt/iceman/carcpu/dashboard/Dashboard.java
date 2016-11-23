@@ -115,19 +115,19 @@ public abstract class Dashboard extends Screen{
         super();
         configureInstruments();
         this.nn = new NeuralNetwork(
-                0.5576882884109496,
-                0.3285294608908279,
-                0.5328666792713027,
-                0.7115359993634642,
-                0.7879252794415132
+               0.9999991831571546,
+               0.9508198953118279,
+               0.9994969397407794,
+               0.9931931037284707,
+               0.9712454428068591
         );
     }
 
-    public Double getSpeed() {
+    public synchronized Double getSpeed() {
         return speed;
     }
 
-    public void setSpeed(double speed) {
+    public synchronized void setSpeed(double speed) {
         this.speed = speed;
     }
 

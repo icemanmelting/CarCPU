@@ -53,7 +53,6 @@ public class Speedometer extends InputModule {
                     if (getDashboard().getRpm() > 0 && speed <= 220) {
                         getDashboard().setSpeed(speed);
                         updateTripKilometers(speed);
-                        System.out.println("speed: " + speed);
                     }
                 } catch (Exception e) {
                     createErrorMessage(carData, "Problem setting speed");
