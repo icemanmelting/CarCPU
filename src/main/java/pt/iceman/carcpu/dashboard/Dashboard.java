@@ -14,7 +14,7 @@ import pt.iceman.carcpu.screen.Screen;
  * Created by iceman on 18/07/16.
  */
 public abstract class Dashboard extends Screen {
-    private enum Gear {
+    protected enum Gear {
         Neutral("/gear0.jpg"),
         First("/gear1.jpg"),
         Second("/gear2.jpg"),
