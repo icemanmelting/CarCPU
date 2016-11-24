@@ -14,25 +14,6 @@ import pt.iceman.carcpu.screen.Screen;
  * Created by iceman on 18/07/16.
  */
 public abstract class Dashboard extends Screen {
-    protected enum Gear {
-        Neutral("/gear0.jpg"),
-        First("/gear1.jpg"),
-        Second("/gear2.jpg"),
-        Third("/gear3.jpg"),
-        Forth("/gear4.jpg"),
-        Fifth("/gear5.jpg");
-
-        private String fieldValue;
-
-        Gear(String fieldValue) {
-            this.fieldValue = fieldValue;
-        }
-
-        public String getFieldValue() {
-            return fieldValue;
-        }
-    }
-
     protected GearNeuralNetwork nn;
     protected Gauge speedGauge;
     protected AbsolutePositioning speedGaugeAbsPos;
@@ -162,40 +143,6 @@ public abstract class Dashboard extends Screen {
 
     public void setGear(double gear) {
         this.gear = gear;
-
-        switch ((int) gear) {
-            case 1:
-                Platform.runLater(() -> {
-                    gearShift = new Image(getClass().getResourceAsStream(Gear.First.getFieldValue()));
-                    gearShiftView.setImage(gearShift);
-                });
-                break;
-            case 2:
-                Platform.runLater(() -> {
-                    gearShift = new Image(getClass().getResourceAsStream(Gear.Second.getFieldValue()));
-                    gearShiftView.setImage(gearShift);
-                });
-                break;
-            case 3:
-                Platform.runLater(() -> {
-                    gearShift = new Image(getClass().getResourceAsStream(Gear.Third.getFieldValue()));
-                    gearShiftView.setImage(gearShift);
-                });
-                break;
-            case 4:
-                Platform.runLater(() -> {
-                    gearShift = new Image(getClass().getResourceAsStream(Gear.Forth.getFieldValue()));
-                });
-                break;
-            case 5:
-                Platform.runLater(() -> {
-                    gearShift = new Image(getClass().getResourceAsStream(Gear.Fifth.getFieldValue()));
-                    gearShiftView.setImage(gearShift);
-                });
-                break;
-            default:
-                break;
-        }
     }
 
     public synchronized double getDistance() {
