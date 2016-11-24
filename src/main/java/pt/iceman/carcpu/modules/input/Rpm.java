@@ -17,9 +17,8 @@ public class Rpm extends InputModule {
     @Override
     public void interpretCommand(Command command) {
         if (inputInterpreter.isIgnition()) {
-
-
             byte[] commandValues = command.getValues();
+
             if (commands.contains(commandValues[0])) {
                 byte firstRPMFrequencyByte;
                 byte secondRPMFrequencyByte;

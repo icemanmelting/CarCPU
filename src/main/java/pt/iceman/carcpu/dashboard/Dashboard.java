@@ -6,18 +6,42 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import pt.iceman.carai.neuralnet.gear.GearNeuralNetwork;
 import pt.iceman.carcpu.screen.AbsolutePositioning;
 import pt.iceman.carcpu.screen.Screen;
-
-import java.io.File;
 
 /**
  * Created by iceman on 18/07/16.
  */
-public abstract class Dashboard extends Screen{
+public abstract class Dashboard extends Screen {
+    protected enum Gear {
+        Neutral("/gear0.jpg"),
+        First("/gear1.jpg"),
+        Second("/gear2.jpg"),
+        Third("/gear3.jpg"),
+        Forth("/gear4.jpg"),
+        Fifth("/gear5.jpg");
+
+        private String fieldValue;
+
+        Gear(String fieldValue) {
+            this.fieldValue = fieldValue;
+        }
+
+        public String getFieldValue() {
+            return fieldValue;
+        }
+    }
+
+    protected GearNeuralNetwork nn;
     protected Gauge speedGauge;
     protected AbsolutePositioning speedGaugeAbsPos;
     protected double speed;
+
+    protected Image gearShift;
+    protected ImageView gearShiftView;
+    protected AbsolutePositioning gearShiftAbsPos;
+    protected double gear;
 
     protected Gauge tempGauge;
     protected AbsolutePositioning tempGaugeAbsPos;
@@ -49,6 +73,7 @@ public abstract class Dashboard extends Screen{
 
     protected AnimationTimer timerSpeed;
     protected AnimationTimer timerRpm;
+    protected AnimationTimer timerGear;
     protected AnimationTimer timerDistance;
     protected AnimationTimer timerTotalDistance;
     protected AnimationTimer timerDiesel;
@@ -106,13 +131,20 @@ public abstract class Dashboard extends Screen{
     public Dashboard() {
         super();
         configureInstruments();
+        this.nn = new GearNeuralNetwork(
+                0.9999991831571546,
+                0.9508198953118279,
+                0.9994969397407794,
+                0.9931931037284707,
+                0.9712454428068591
+        );
     }
 
-    public Double getSpeed() {
+    public synchronized Double getSpeed() {
         return speed;
     }
 
-    public void setSpeed(double speed) {
+    public synchronized void setSpeed(double speed) {
         this.speed = speed;
     }
 
@@ -122,6 +154,48 @@ public abstract class Dashboard extends Screen{
 
     public void setRpm(double rpm) {
         this.rpm = rpm;
+    }
+
+    public double getGear() {
+        return gear;
+    }
+
+    public void setGear(double gear) {
+        this.gear = gear;
+
+        switch ((int) gear) {
+            case 1:
+                Platform.runLater(() -> {
+                    gearShift = new Image(getClass().getResourceAsStream(Gear.First.getFieldValue()));
+                    gearShiftView.setImage(gearShift);
+                });
+                break;
+            case 2:
+                Platform.runLater(() -> {
+                    gearShift = new Image(getClass().getResourceAsStream(Gear.Second.getFieldValue()));
+                    gearShiftView.setImage(gearShift);
+                });
+                break;
+            case 3:
+                Platform.runLater(() -> {
+                    gearShift = new Image(getClass().getResourceAsStream(Gear.Third.getFieldValue()));
+                    gearShiftView.setImage(gearShift);
+                });
+                break;
+            case 4:
+                Platform.runLater(() -> {
+                    gearShift = new Image(getClass().getResourceAsStream(Gear.Forth.getFieldValue()));
+                });
+                break;
+            case 5:
+                Platform.runLater(() -> {
+                    gearShift = new Image(getClass().getResourceAsStream(Gear.Fifth.getFieldValue()));
+                    gearShiftView.setImage(gearShift);
+                });
+                break;
+            default:
+                break;
+        }
     }
 
     public synchronized double getDistance() {
