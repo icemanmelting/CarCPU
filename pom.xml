@@ -27,7 +27,7 @@
         <dependency>
             <groupId>pt.iceman</groupId>
             <artifactId>car-ai</artifactId>
-            <version>1.0-beta</version>
+            <version>1.0</version>
         </dependency>
     </dependencies>
     <build>

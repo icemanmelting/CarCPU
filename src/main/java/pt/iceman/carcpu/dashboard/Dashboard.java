@@ -6,7 +6,7 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import pt.iceman.carai.neuralnet.gear.GearNeuralNetwork;
+import pt.iceman.carai.neuralnet.gear.assistedlearning.GearNeuralNetwork;
 import pt.iceman.carcpu.screen.AbsolutePositioning;
 import pt.iceman.carcpu.screen.Screen;
 
