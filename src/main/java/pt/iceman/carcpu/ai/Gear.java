@@ -9,7 +9,8 @@ public enum Gear {
     Second("/gear2.jpg"),
     Third("/gear3.jpg"),
     Forth("/gear4.jpg"),
-    Fifth("/gear5.jpg");
+    Fifth("/gear5.jpg"),
+    Reverse("/gearr.jpg");
 
     private String fieldValue;
 
