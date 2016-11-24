@@ -47,7 +47,11 @@ public class Temperature extends InputModule {
                         tempValues.add((double) analogTValue);
                     }
 
-                    setTemperatureLevel(calculateAverage(tempValues));
+                    OptionalDouble avg = tempValues.stream().mapToDouble(r -> r).average();
+
+                    if (avg.isPresent()) {
+                        setTemperatureLevel(avg.getAsDouble());
+                    }
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                     createErrorMessage(carData, "Problem setting temperature");
