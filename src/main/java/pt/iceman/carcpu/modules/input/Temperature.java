@@ -4,6 +4,7 @@ import pt.iceman.carcpu.dashboard.Dashboard;
 import pt.iceman.carcpu.interpreters.Command;
 import pt.iceman.carcpu.interpreters.input.InputInterpreter;
 import pt.iceman.cardata.CarData;
+import pt.iceman.cardata.TemperatureData;
 import pt.iceman.cardata.utils.CustomEntry;
 
 import java.sql.SQLException;
@@ -76,12 +77,17 @@ public class Temperature extends InputModule {
     public void restart() {
         tempDataTimer = new Timer();
 
-        tempDataTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                carData.executeDbCommand(CarData.DBCommand.TEMPW, new CustomEntry<>(getDashboard().getTemp(), new Date().toString()));
-            }
-        }, 0, 300000);
+        tempDataTimer.schedule(
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        carData.insertTempData(new TemperatureData() {{
+                            setValue(getDashboard().getTemp());
+                            setTimeframe(new Date());
+                        }});
+                    }
+                },
+                0, 300000);
     }
 
     public void setTemperatureLevel(double analogLevel) {

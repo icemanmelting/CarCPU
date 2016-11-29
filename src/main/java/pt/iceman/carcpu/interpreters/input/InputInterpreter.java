@@ -32,7 +32,7 @@ public class InputInterpreter extends Thread {
         this.carData = carData;
         this.inputQueue = inputQueue;
         this.carTrip = new CarTrip();
-        this.carSettings = (CarSettings) carData.executeDbCommand(CarData.DBCommand.CARSETTINGSR, new Integer(1));
+        this.carSettings = carData.getSettings(1L);
         getInputModules();
         configureTripAndAbsoluteKilometers();
     }

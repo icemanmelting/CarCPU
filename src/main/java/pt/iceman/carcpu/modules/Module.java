@@ -17,30 +17,30 @@ public class Module {
     }
 
     protected void createErrorMessage(CarData carData, String message) {
-        carData.executeDbCommand(CarData.DBCommand.LOGW, new CarLog() {
+        carData.createLog(new CarLog() {
             {
                 setMessage(message);
-                setLogLevel(LogLevel.ERROR);
+                setLogLevel(LogLevel.ERROR.toString());
                 setTimeFrame(new Date());
             }
         });
     }
 
     protected void createInfoMessage(CarData carData, String message) {
-        carData.executeDbCommand(CarData.DBCommand.LOGW, new CarLog() {
+        carData.createLog(new CarLog() {
             {
                 setMessage(message);
-                setLogLevel(LogLevel.INFO);
+                setLogLevel(LogLevel.INFO.toString());
                 setTimeFrame(new Date());
             }
         });
     }
 
     protected void createWarningMessage(CarData carData, String message) {
-        carData.executeDbCommand(CarData.DBCommand.LOGW, new CarLog() {
+        carData.createLog(new CarLog() {
             {
                 setMessage(message);
-                setLogLevel(LogLevel.WARNIMG);
+                setLogLevel(LogLevel.WARNIMG.toString());
                 setTimeFrame(new Date());
             }
         });

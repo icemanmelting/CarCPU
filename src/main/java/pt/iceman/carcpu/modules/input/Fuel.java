@@ -48,6 +48,7 @@ public class Fuel extends InputModule {
                     }
 
                     OptionalDouble avg = fuelValues.stream().mapToDouble(r -> r).average();
+
                     if (avg.isPresent()) {
                         setFuelLevel(avg.getAsDouble());
                     }

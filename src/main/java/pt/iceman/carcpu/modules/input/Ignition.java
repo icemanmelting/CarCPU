@@ -61,8 +61,8 @@ public class Ignition extends InputModule {
                 double speedAverage = inputInterpreter.getCarTrip().getTripLengthKm() / tripDurationHours;
                 inputInterpreter.getCarTrip().setAverageSpeed(speedAverage);
 
-                carData.executeDbCommand(CarData.DBCommand.CARSETTINGSW, carSettings);
-                carData.executeDbCommand(CarData.DBCommand.CARTRIPW, inputInterpreter.getCarTrip());
+                carData.updateSettings(carSettings);
+                carData.insertTrip(inputInterpreter.getCarTrip());
 
                 createInfoMessage(carData, "Ignition turned off");
             } else if(commandValues[0] == IGNITION_ON) {

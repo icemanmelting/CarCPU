@@ -14,10 +14,7 @@ import pt.iceman.cardata.utils.CustomEntry;
 public class ScreenLoader {
     public static void load(AnchorPane anchor, Screen scr)
     {
-        Platform.runLater(new Runnable()
-        {
-            @Override
-            public void run()
+        Platform.runLater(() ->
             {
                 anchor.getChildren().clear();
                 ParallelTransition pTransition = new ParallelTransition();
@@ -56,7 +53,6 @@ public class ScreenLoader {
                     }
                 }
                 pTransition.play();
-            }
-        });
+            });
     }
 }

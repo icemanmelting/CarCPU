@@ -4,6 +4,7 @@ import pt.iceman.carcpu.dashboard.Dashboard;
 import pt.iceman.carcpu.interpreters.Command;
 import pt.iceman.carcpu.interpreters.input.InputInterpreter;
 import pt.iceman.cardata.CarData;
+import pt.iceman.cardata.SpeedData;
 import pt.iceman.cardata.utils.CustomEntry;
 
 import java.util.*;
@@ -69,13 +70,24 @@ public class Speedometer extends InputModule {
     @Override
     public void restart() {
         speedDataTimer = new Timer();
+
+        SpeedData speedData = new SpeedData();
+        speedData.setGear((int)getDashboard().getGear());
+        speedData.setRpm(getDashboard().getRpm());
+        speedData.setSpeed(getDashboard().getSpeed());
+
         speedDataTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                carData.executeDbCommand(CarData.DBCommand.SPEEDW, new CustomEntry<>(getDashboard().getSpeed(), new Date().toString()));
-                carData.executeDbCommand(CarData.DBCommand.CARSETTINGSW, inputInterpreter.getCarSettings());
+                carData.insertSpeedData(new SpeedData(){{
+                    setGear((int)getDashboard().getGear());
+                    setRpm(getDashboard().getRpm());
+                    setSpeed(getDashboard().getSpeed());
+                }});
+
+                carData.updateSettings(inputInterpreter.getCarSettings());
             }
-        }, 0, 20000);
+        }, 0, 5000);
     }
 
     @Override
