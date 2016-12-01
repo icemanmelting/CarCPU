@@ -6,7 +6,7 @@
 
     <groupId>pt.iceman</groupId>
     <artifactId>carcpu</artifactId>
-    <version>2.6-beta</version>
+    <version>3.0</version>
 
     <dependencies>
         <dependency>
@@ -28,7 +28,7 @@
         <dependency>
             <groupId>pt.iceman</groupId>
             <artifactId>cardata</artifactId>
-            <version>2.1-beta</version>
+            <version>3.0</version>
         </dependency>
         <dependency>
             <groupId>pt.iceman</groupId>
