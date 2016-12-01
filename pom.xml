@@ -6,7 +6,7 @@
 
     <groupId>pt.iceman</groupId>
     <artifactId>carcpu</artifactId>
-    <version>3.0</version>
+    <version>3.0.1</version>
 
     <dependencies>
         <dependency>
@@ -33,7 +33,7 @@
         <dependency>
             <groupId>pt.iceman</groupId>
             <artifactId>car-ai</artifactId>
-            <version>1.0</version>
+            <version>1.0.1</version>
         </dependency>
     </dependencies>
     <build>
