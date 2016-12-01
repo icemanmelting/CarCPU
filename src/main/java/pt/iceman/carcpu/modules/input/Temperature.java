@@ -81,13 +81,16 @@ public class Temperature extends InputModule {
                 new TimerTask() {
                     @Override
                     public void run() {
-                        carData.insertTempData(new TemperatureData() {{
-                            setValue(getDashboard().getTemp());
-                            setTimeframe(new Date());
-                        }});
+                        double temp = getDashboard().getTemp();
+                        if (temp > 0) {
+                            carData.insertTempData(new TemperatureData() {{
+                                setValue(getDashboard().getTemp());
+                                setTimeframe(new Date());
+                            }});
+                        }
                     }
                 },
-                0, 300000);
+                0, 15000);
     }
 
     public void setTemperatureLevel(double analogLevel) {

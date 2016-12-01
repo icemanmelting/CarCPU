@@ -65,6 +65,7 @@ public class Speedometer extends InputModule {
     @Override
     public void resetValues() {
         getDashboard().setSpeed(0);
+        speedDataTimer.cancel();
     }
 
     @Override
@@ -79,13 +80,17 @@ public class Speedometer extends InputModule {
         speedDataTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                carData.insertSpeedData(new SpeedData(){{
-                    setGear((int)getDashboard().getGear());
-                    setRpm(getDashboard().getRpm());
-                    setSpeed(getDashboard().getSpeed());
-                }});
+                double rpm = getDashboard().getRpm();
+                if(rpm > 0) {
+                    carData.insertSpeedData(new SpeedData() {{
+                        setGear((int) getDashboard().getGear());
+                        setRpm(getDashboard().getRpm());
+                        setSpeed(getDashboard().getSpeed());
+                        setTimeframe(new Date());
+                    }});
 
-                carData.updateSettings(inputInterpreter.getCarSettings());
+                    carData.updateSettings(inputInterpreter.getCarSettings());
+                }
             }
         }, 0, 5000);
     }
