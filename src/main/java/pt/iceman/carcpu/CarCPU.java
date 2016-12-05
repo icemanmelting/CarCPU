@@ -17,6 +17,7 @@ public class CarCPU {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         McuListenter mcuListenter = new McuListenter(dashboard);
         mcuListenter.start();
     }

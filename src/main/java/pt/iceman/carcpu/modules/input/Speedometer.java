@@ -83,10 +83,11 @@ public class Speedometer extends InputModule {
                 double rpm = getDashboard().getRpm();
                 if(rpm > 0) {
                     carData.insertSpeedData(new SpeedData() {{
+                        setTripId(inputInterpreter.getCarTrip().getId());
                         setGear((int) getDashboard().getGear());
                         setRpm(getDashboard().getRpm());
                         setSpeed(getDashboard().getSpeed());
-                        setTimeframe(new Date());
+                        setTs(new Date());
                     }});
 
                     carData.updateSettings(inputInterpreter.getCarSettings());

@@ -84,8 +84,9 @@ public class Temperature extends InputModule {
                         double temp = getDashboard().getTemp();
                         if (temp > 0) {
                             carData.insertTempData(new TemperatureData() {{
+                                setTripId(inputInterpreter.getCarTrip().getId());
                                 setValue(getDashboard().getTemp());
-                                setTimeframe(new Date());
+                                setTs(new Date());
                             }});
                         }
                     }

@@ -21,7 +21,7 @@ public class Module {
             {
                 setMessage(message);
                 setLogLevel(LogLevel.ERROR.toString());
-                setTimeFrame(new Date());
+                setTs(new Date());
             }
         });
     }
@@ -31,7 +31,7 @@ public class Module {
             {
                 setMessage(message);
                 setLogLevel(LogLevel.INFO.toString());
-                setTimeFrame(new Date());
+                setTs(new Date());
             }
         });
     }
@@ -41,7 +41,7 @@ public class Module {
             {
                 setMessage(message);
                 setLogLevel(LogLevel.WARNIMG.toString());
-                setTimeFrame(new Date());
+                setTs(new Date());
             }
         });
     }
