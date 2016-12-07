@@ -71,12 +71,6 @@ public class Speedometer extends InputModule {
     @Override
     public void restart() {
         speedDataTimer = new Timer();
-
-        SpeedData speedData = new SpeedData();
-        speedData.setGear((int)getDashboard().getGear());
-        speedData.setRpm(getDashboard().getRpm());
-        speedData.setSpeed(getDashboard().getSpeed());
-
         speedDataTimer.schedule(new TimerTask() {
             @Override
             public void run() {

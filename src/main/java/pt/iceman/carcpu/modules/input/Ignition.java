@@ -51,21 +51,24 @@ public class Ignition extends InputModule {
                 inputInterpreter.getCarTrip().setEndingKm(getDashboard().getTotalDistance());
 
                 double tripLength = inputInterpreter.getCarTrip().getEndingKm() - inputInterpreter.getCarTrip().getStartingKm();
-                inputInterpreter.getCarTrip().setTripLengthKm(tripLength);
 
-                long tripDuration = inputInterpreter.getCarTrip().getEndTime().getTime() - inputInterpreter.getCarTrip().getStartTime().getTime();
-                inputInterpreter.getCarTrip().setTripDuration(tripDuration);
+                if (tripLength > 0) {
+                    inputInterpreter.getCarTrip().setTripLengthKm(tripLength);
 
-                double tripdurationSeconds = TimeUnit.MILLISECONDS.toSeconds((long) inputInterpreter.getCarTrip().getTripDuration());
-                double tripDurationHours = tripdurationSeconds / 3600;
-                double speedAverage = inputInterpreter.getCarTrip().getTripLengthKm() / tripDurationHours;
-                inputInterpreter.getCarTrip().setAverageSpeed(speedAverage);
+                    long tripDuration = inputInterpreter.getCarTrip().getEndTime().getTime() - inputInterpreter.getCarTrip().getStartTime().getTime();
+                    inputInterpreter.getCarTrip().setTripDuration(tripDuration);
 
-                carData.updateSettings(carSettings);
-                carData.insertTrip(inputInterpreter.getCarTrip());
+                    double tripdurationSeconds = TimeUnit.MILLISECONDS.toSeconds((long) inputInterpreter.getCarTrip().getTripDuration());
+                    double tripDurationHours = tripdurationSeconds / 3600;
+                    double speedAverage = inputInterpreter.getCarTrip().getTripLengthKm() / tripDurationHours;
+                    inputInterpreter.getCarTrip().setAverageSpeed(speedAverage);
+
+                    carData.updateSettings(carSettings);
+                    carData.insertTrip(inputInterpreter.getCarTrip());
+                }
 
                 createInfoMessage(carData, "Ignition turned off");
-            } else if(commandValues[0] == IGNITION_ON) {
+            } else if (commandValues[0] == IGNITION_ON) {
                 if (timer != null) {
                     timer.cancel();
                 }
@@ -78,10 +81,13 @@ public class Ignition extends InputModule {
                 inputInterpreter.setIgnition(true);
 
                 createInfoMessage(carData, "Ignition turned on");
-                inputInterpreter.setCarTrip(new CarTrip());
-                inputInterpreter.getCarTrip().setStartTime(new Date());
-                inputInterpreter.getCarTrip().setStartingKm(getDashboard().getTotalDistance());
-            } else if(commandValues[0] == TURN_OFF) {
+
+                CarTrip carTrip = new CarTrip();
+                carTrip.setStartingKm(getDashboard().getTotalDistance());
+                carTrip.setStartTime(new Date());
+
+                inputInterpreter.setCarTrip(carTrip);
+            } else if (commandValues[0] == TURN_OFF) {
                 try {
                     Runtime.getRuntime().exec("/etc/init.d/turnOff.sh");
                 } catch (IOException e) {
