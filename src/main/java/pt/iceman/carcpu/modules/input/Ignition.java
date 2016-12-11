@@ -39,7 +39,7 @@ public class Ignition extends InputModule {
                         try {
                             Runtime.getRuntime().exec("/etc/init.d/shutdownScreen.sh");
                         } catch (IOException e) {
-                            createErrorMessage(carData, "Could not read script to shutdown screen");
+                            createErrorMessage(carData, "Could not read script to shutdown screen",  inputInterpreter.getCarTrip().getId());
                         }
                     }
                 }, 5000);
@@ -67,7 +67,7 @@ public class Ignition extends InputModule {
                     carData.insertTrip(inputInterpreter.getCarTrip());
                 }
 
-                createInfoMessage(carData, "Ignition turned off");
+                createInfoMessage(carData, "Ignition turned off", inputInterpreter.getCarTrip().getId());
             } else if (commandValues[0] == IGNITION_ON) {
                 if (timer != null) {
                     timer.cancel();
@@ -75,23 +75,24 @@ public class Ignition extends InputModule {
                 try {
                     Runtime.getRuntime().exec("/etc/init.d/turnonscreen.sh");
                 } catch (IOException e) {
-                    createErrorMessage(carData, "Could not read script to turn on screen");
+                    createErrorMessage(carData, "Could not read script to turn on screen",  inputInterpreter.getCarTrip().getId());
                 }
                 inputInterpreter.getInputModules().forEach((c, o) -> o.restart());
                 inputInterpreter.setIgnition(true);
-
-                createInfoMessage(carData, "Ignition turned on");
 
                 CarTrip carTrip = new CarTrip();
                 carTrip.setStartingKm(getDashboard().getTotalDistance());
                 carTrip.setStartTime(new Date());
 
                 inputInterpreter.setCarTrip(carTrip);
+
+                createInfoMessage(carData, "Ignition turned on",  inputInterpreter.getCarTrip().getId());
+
             } else if (commandValues[0] == TURN_OFF) {
                 try {
                     Runtime.getRuntime().exec("/etc/init.d/turnOff.sh");
                 } catch (IOException e) {
-                    createErrorMessage(carData, "Could not read script to turn cpu off ");
+                    createErrorMessage(carData, "Could not read script to turn cpu off ",  inputInterpreter.getCarTrip().getId());
                 }
             }
         }

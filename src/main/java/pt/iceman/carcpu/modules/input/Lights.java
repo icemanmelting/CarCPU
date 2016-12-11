@@ -38,7 +38,8 @@ public class Lights extends InputModule {
                     case OIL_PRESSURE_ON:
                         getDashboard().setOilPressure(true);
                         if (getDashboard().getRpm() > 1000) {
-                            createWarningMessage(carData, "Dangerously low oil level!");
+                            createWarningMessage(carData, "Dangerously low oil level!",
+                                    inputInterpreter.getCarTrip().getId());
                         }
                         break;
                     case OIL_PRESSURE_OFF:
@@ -47,7 +48,8 @@ public class Lights extends InputModule {
                     case BATTERY_ON:
                         getDashboard().setBattery(true);
                         if (getDashboard().getRpm() > 1000) {
-                            createWarningMessage(carData, "Please check alternator, it might not be charging the battery");
+                            createWarningMessage(carData, "Please check alternator, it might not be charging the battery",
+                                    inputInterpreter.getCarTrip().getId());
                         }
                         break;
                     case BATTERY_OFF:
@@ -55,14 +57,19 @@ public class Lights extends InputModule {
                         break;
                     case PARKING_BRAKE_ON:
                         getDashboard().setParking(true);
+                        createInfoMessage(carData, "Parking break on",
+                                inputInterpreter.getCarTrip().getId());
                         break;
                     case PARKING_BRAKE_OFF:
                         getDashboard().setParking(false);
+                        createInfoMessage(carData, "Parking break off",
+                                inputInterpreter.getCarTrip().getId());
                         break;
                     case BRAKES_OIL_ON:
                         getDashboard().setBrakesOil(true);
                         if (getDashboard().getRpm() > 1000) {
-                            createWarningMessage(carData, "Please check brake oil level");
+                            createWarningMessage(carData, "Please check brake oil level",
+                                    inputInterpreter.getCarTrip().getId());
                         }
                         break;
                     case BRAKES_OIL_OFF:
@@ -77,7 +84,8 @@ public class Lights extends InputModule {
                     case SPARK_PLUGS_ON:
                         getDashboard().setSparkPlug(true);
                         if (getDashboard().getRpm() > 1000) {
-                            createWarningMessage(carData, "Something wrong with the spark plugs");
+                            createWarningMessage(carData, "Something wrong with the spark plugs",
+                                    inputInterpreter.getCarTrip().getId());
                         }
                         break;
                     case SPARK_PLUGS_OFF:
@@ -86,7 +94,8 @@ public class Lights extends InputModule {
                     case ABS_ANOMALY_ON:
                         getDashboard().setAbs(true);
                         if (getDashboard().getRpm() > 1000) {
-                            createWarningMessage(carData, "Something wrong with the ABS system");
+                            createWarningMessage(carData, "Something wrong with the ABS system",
+                                    inputInterpreter.getCarTrip().getId());
                         }
                         break;
                     case ABS_ANOMALY_OFF:
@@ -94,9 +103,15 @@ public class Lights extends InputModule {
                         break;
                     case HIGH_BEAM_ON:
                         getDashboard().setHighBeams(true);
+                        if (getDashboard().getRpm() > 1000) {
+                            createInfoMessage(carData, "High beams turned on",
+                                    inputInterpreter.getCarTrip().getId());
+                        }
                         break;
                     case HIGH_BEAM_OFF:
                         getDashboard().setHighBeams(false);
+                        createInfoMessage(carData, "High beams turned off",
+                                inputInterpreter.getCarTrip().getId());
                         break;
                 }
             }

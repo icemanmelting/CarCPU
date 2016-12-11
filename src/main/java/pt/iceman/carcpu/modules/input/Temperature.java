@@ -55,7 +55,7 @@ public class Temperature extends InputModule {
                     }
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
-                    createErrorMessage(carData, "Problem setting temperature");
+                    createErrorMessage(carData, "Problem setting temperature", inputInterpreter.getCarTrip().getId());
                 }
             }
         }
@@ -108,11 +108,13 @@ public class Temperature extends InputModule {
         }
 
         if (inputInterpreter.isIgnition() && temperature > 110 && temperature < 120) {
-            createWarningMessage(carData, "Engine temperature is rising, slow down or stop for a moment.");
+            createWarningMessage(carData, "Engine temperature is rising, slow down or stop for a moment.",
+                    inputInterpreter.getCarTrip().getId());
         }
 
         if (inputInterpreter.isIgnition() && temperature > 120) {
-            createWarningMessage(carData, "Temperature is critical, please turn off the car to cool down the engine!");
+            createWarningMessage(carData, "Temperature is critical, please turn off the car to cool down the engine!",
+                    inputInterpreter.getCarTrip().getId());
         }
     }
 }

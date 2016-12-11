@@ -108,9 +108,7 @@ public class InputInterpreter extends Thread {
                 try {
                     Command cmd = inputQueue.take();
                     Map<Class<? extends InputModule>, InputModule> inputModules = getInputModules();
-                    synchronized (inputModules) {
-                        inputModules.get(cmd.getClazz()).interpretCommand(cmd);
-                    }
+                    inputModules.get(cmd.getClazz()).interpretCommand(cmd);
                 } catch (InterruptedException e) {
                     System.out.println("Problem taking element from queue!");
                 }
