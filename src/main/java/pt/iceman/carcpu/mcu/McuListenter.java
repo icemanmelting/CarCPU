@@ -20,22 +20,12 @@ import java.util.concurrent.BlockingQueue;
  */
 public class McuListenter extends Thread {
     public static final int CONTROLLER_PORT = 9887;
-    public static final String LISTEN_ADDRESS = "localhost";
-    private InputInterpreter inputInterpreter;
-    private OutputInterpreter outputInterpreter;
+    public static final String LISTENING_ADDRESS = "localhost";
     private static BlockingQueue<Command> inputQueue;
     private DatagramSocket serverSocket;
-    private CarData carData;
 
-    public McuListenter(Dashboard dashboard) throws ClassNotFoundException {
-        carData = new CarData();
-        inputQueue = new ArrayBlockingQueue<>(100);
-
-        inputInterpreter = new InputInterpreter(dashboard, carData, inputQueue);
-        inputInterpreter.start();
-
-        outputInterpreter = new OutputInterpreter(carData);
-        outputInterpreter.start();
+    public McuListenter(BlockingQueue<Command> inputQueue) {
+        this.inputQueue = inputQueue;
     }
 
     @Override
@@ -44,15 +34,13 @@ public class McuListenter extends Thread {
             serverSocket = new DatagramSocket(CONTROLLER_PORT);
             byte[] receiveData = new byte[1200];
 
-            while (true)
-            {
+            while (true) {
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                 serverSocket.receive(receivePacket);
 
                 byte[] actualData = new byte[receivePacket.getLength()];
 
-                for (int i = 0; i < actualData.length; i++)
-                {
+                for (int i = 0; i < actualData.length; i++) {
                     actualData[i] = receivePacket.getData()[i];
                 }
                 readMessages(actualData);
@@ -60,22 +48,17 @@ public class McuListenter extends Thread {
         } catch (SocketException e) {
             System.out.println("Could not execute server socket. " + e.getMessage());
         } catch (IOException e) {
-            System.out.println("Could not write to socket! "+e.getMessage());
+            System.out.println("Could not write to socket! " + e.getMessage());
         }
     }
 
     public void readMessages(byte[] values) {
-        Class<? extends InputModule> clazz = inputInterpreter.getCommandModuleAssociator().get(values[0]);
-
-        if(clazz != null) {
-            Command cmd = new Command();
-            cmd.setValues(values);
-            cmd.setClazz(clazz);
-            try {
-                inputQueue.put(cmd);
-            } catch (InterruptedException e) {
-                System.out.println("Problem adding command to queue!");
-            }
+        Command cmd = new Command();
+        cmd.setValues(values);
+        try {
+            inputQueue.put(cmd);
+        } catch (InterruptedException e) {
+            System.out.println("Problem adding command to queue!");
         }
     }
 }

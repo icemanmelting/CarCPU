@@ -56,7 +56,7 @@ public class Speedometer extends InputModule {
                         updateTripKilometers(speed);
                     }
                 } catch (Exception e) {
-                    createErrorMessage(carData, "Problem setting speed");
+                    createErrorMessage(carData, "Problem setting speed", inputInterpreter.getCarTrip().getId());
                 }
             }
         }

@@ -103,12 +103,17 @@ public class InputInterpreter extends Thread {
 
     @Override
     public void run() {
+        Map<Class<? extends InputModule>, InputModule> inputModules = getInputModules();
+
         while (true) {
             if (inputQueue.size() > 0) {
                 try {
                     Command cmd = inputQueue.take();
-                    Map<Class<? extends InputModule>, InputModule> inputModules = getInputModules();
-                    inputModules.get(cmd.getClazz()).interpretCommand(cmd);
+                    Class clazz = getCommandModuleAssociator().getOrDefault(cmd.getValues()[0], null);
+
+                    if (clazz != null) {
+                        inputModules.get(clazz).interpretCommand(cmd);
+                    }
                 } catch (InterruptedException e) {
                     System.out.println("Problem taking element from queue!");
                 }
